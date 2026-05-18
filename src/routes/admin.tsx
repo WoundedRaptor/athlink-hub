@@ -35,14 +35,14 @@ const ADMIN_STATUS_ORDER: AdminStatus[] = [
 ];
 
 function AdminPage() {
-  const [adminStatuses, setAdminStatuses] = useState<Record<string, AdminStatus>>(
-    Object.fromEntries(ADMIN_LEADS.map((lead) => [lead.id, lead.adminStatus ?? "Needs Review"])),
+  const initialAdminStatuses = useMemo<Record<string, AdminStatus>>(
+    () => Object.fromEntries(ADMIN_LEADS.map((lead) => [lead.id, lead.adminStatus])),
+    [],
   );
+  const [adminStatuses, setAdminStatuses] = useState<Record<string, AdminStatus>>(initialAdminStatuses);
   const [selected, setSelected] = useState<Provider | null>(ADMIN_LEADS[0] ?? null);
 
-  const selectedStatus = selected
-    ? (adminStatuses[selected.id] ?? selected.adminStatus ?? "Needs Review")
-    : "Needs Review";
+  const selectedStatus = selected ? adminStatuses[selected.id] : "Needs Review";
 
   const counts = useMemo(() => {
     const initial: Record<AdminStatus, number> = {
@@ -55,7 +55,7 @@ function AdminPage() {
     };
 
     return ADMIN_LEADS.reduce((totals, lead) => {
-      const status = adminStatuses[lead.id] ?? lead.adminStatus ?? "Needs Review";
+      const status = adminStatuses[lead.id];
       totals[status] += 1;
       return totals;
     }, initial);
@@ -123,7 +123,7 @@ function AdminPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {ADMIN_LEADS.map((lead) => {
-                  const status = adminStatuses[lead.id] ?? lead.adminStatus ?? "Needs Review";
+                  const status = adminStatuses[lead.id];
                   return (
                     <tr
                       key={lead.id}
@@ -195,7 +195,7 @@ function AdminPage() {
 
             <div className="lg:hidden divide-y divide-border">
               {ADMIN_LEADS.map((lead) => {
-                const status = adminStatuses[lead.id] ?? lead.adminStatus ?? "Needs Review";
+                const status = adminStatuses[lead.id];
                 return (
                   <LeadCard
                     key={lead.id}

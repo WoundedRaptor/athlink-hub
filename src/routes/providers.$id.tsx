@@ -182,20 +182,22 @@ function ProviderPage() {
               )}
             </div>
 
-            <div className="bg-stone-900 text-white rounded-3xl p-6">
-              <h4 className="font-bold mb-1">Is this you?</h4>
-              <p className="text-sm opacity-70 mb-4">
-                Claim your listing to update services, hours, and share external booking or contact
-                links.
-              </p>
-              <Link
-                to="/claim/$id"
-                params={{ id: provider.id }}
-                className="text-xs font-bold underline"
-              >
-                Start claim →
-              </Link>
-            </div>
+            {isUnclaimedLead && (
+              <div className="bg-stone-900 text-white rounded-3xl p-6">
+                <h4 className="font-bold mb-1">Is this you?</h4>
+                <p className="text-sm opacity-70 mb-4">
+                  Claim your listing to update services, hours, and share external booking or contact
+                  links.
+                </p>
+                <Link
+                  to="/claim/$id"
+                  params={{ id: provider.id }}
+                  className="text-xs font-bold underline"
+                >
+                  Start claim →
+                </Link>
+              </div>
+            )}
           </aside>
         </div>
       </article>

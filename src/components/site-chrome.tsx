@@ -28,7 +28,7 @@ export function SiteHeader() {
 
             <Link
               to="/search"
-              search={{ need: "join-camps" }}
+              search={{ need: "camps" }}
               className="hover:text-foreground transition-colors"
             >
               Camps &amp; Clinics
@@ -36,7 +36,7 @@ export function SiteHeader() {
 
             <Link
               to="/search"
-              search={{ need: "recover" }}
+              search={{ need: "recovery" }}
               className="hover:text-foreground transition-colors"
             >
               Recovery
@@ -100,12 +100,12 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/search" search={{ need: "improve-skills" }} className="hover:underline">
+                <Link to="/search" search={{ need: "skills" }} className="hover:underline">
                   Improve Skills
                 </Link>
               </li>
               <li>
-                <Link to="/search" search={{ need: "recover" }} className="hover:underline">
+                <Link to="/search" search={{ need: "recovery" }} className="hover:underline">
                   Recovery &amp; Rehab
                 </Link>
               </li>

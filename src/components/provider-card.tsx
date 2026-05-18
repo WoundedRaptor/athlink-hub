@@ -108,13 +108,14 @@ export function ProviderCard({ provider }: { provider: Provider }) {
                 >
                   <Phone className="size-3.5" /> Contact
                 </a>
-                <Link
-                  to="/providers/$id"
-                  params={{ id: provider.id }}
+                <a
+                  href={`https://${provider.website}`}
+                  target="_blank"
+                  rel="noreferrer"
                   className="text-sm font-bold px-4 py-2 bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-px transition-transform"
                 >
-                  Book Session
-                </Link>
+                  Book Now
+                </a>
               </>
             )}
           </div>

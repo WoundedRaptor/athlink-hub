@@ -2,7 +2,7 @@ import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { ProviderImage } from "@/components/provider-card";
 import { getProvider, NEED_LABELS, type Provider } from "@/data/providers";
-import { Phone, Mail, Globe, MapPin, Star, Calendar, Shield } from "lucide-react";
+import { Phone, Mail, Globe, MapPin, Star, ExternalLink, Shield } from "lucide-react";
 
 export const Route = createFileRoute("/providers/$id")({
   loader: ({ params }) => {
@@ -152,12 +152,14 @@ function ProviderPage() {
                 </Link>
               ) : (
                 <div className="space-y-2">
-                  <button
-                    type="button"
+                  <a
+                    href={`https://${provider.website}`}
+                    target="_blank"
+                    rel="noreferrer"
                     className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-xl text-sm inline-flex items-center justify-center gap-2"
                   >
-                    <Calendar className="size-4" /> Book a session
-                  </button>
+                    <ExternalLink className="size-4" /> Book Now
+                  </a>
                   <a
                     href={`tel:${provider.phone}`}
                     className="block text-center w-full py-3 border border-border font-bold rounded-xl text-sm"
@@ -171,7 +173,8 @@ function ProviderPage() {
             <div className="bg-stone-900 text-white rounded-3xl p-6">
               <h4 className="font-bold mb-1">Is this you?</h4>
               <p className="text-sm opacity-70 mb-4">
-                Claim your listing to update services, hours, and accept bookings.
+                Claim your listing to update services, hours, and share external booking or
+                contact links.
               </p>
               <Link
                 to="/claim/$id"

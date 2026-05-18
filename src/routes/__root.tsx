@@ -72,24 +72,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AthLink Hub — Find local services for your young athlete" },
+      { title: "AthLink Hub — Find local support for your young athlete" },
       {
         name: "description",
         content:
-          "A guided local search tool for parents to find vetted coaches, recovery specialists, camps, gear, and facilities for youth athletes.",
+          "Search coaches, trainers, gear shops, recovery providers, camps, and facilities across Newfoundland & Labrador and Nova Scotia.",
       },
-      { property: "og:title", content: "AthLink Hub — Find local services for your young athlete" },
+      {
+        property: "og:title",
+        content: "AthLink Hub — Find local support for your young athlete",
+      },
       {
         property: "og:description",
         content:
-          "Guided local discovery for youth-athlete training, recovery, gear, camps, and facilities.",
+          "Guided local discovery for youth-athlete support across Newfoundland & Labrador and Nova Scotia.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AthLink Hub — Find local services for your young athlete" },
-      { name: "description", content: "AthLink Hub connects parents with local youth athlete services through a guided search experience." },
-      { property: "og:description", content: "AthLink Hub connects parents with local youth athlete services through a guided search experience." },
-      { name: "twitter:description", content: "AthLink Hub connects parents with local youth athlete services through a guided search experience." },
+      {
+        name: "twitter:title",
+        content: "AthLink Hub — Find local support for your young athlete",
+      },
+      {
+        name: "description",
+        content:
+          "AthLink Hub connects parents with youth-athlete support providers across Newfoundland & Labrador and Nova Scotia.",
+      },
+      {
+        property: "og:description",
+        content:
+          "AthLink Hub connects parents with youth-athlete support providers across Newfoundland & Labrador and Nova Scotia.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "AthLink Hub connects parents with youth-athlete support providers across Newfoundland & Labrador and Nova Scotia.",
+      },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/43653ec1-79a8-4191-8791-706f46d0d832/id-preview-2cba1683--e7995b1b-11bf-47c1-87c1-7fe2fa92c373.lovable.app-1779109117141.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/43653ec1-79a8-4191-8791-706f46d0d832/id-preview-2cba1683--e7995b1b-11bf-47c1-87c1-7fe2fa92c373.lovable.app-1779109117141.png" },
     ],

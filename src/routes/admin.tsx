@@ -21,10 +21,7 @@ import {
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
   head: () => ({
-    meta: [
-      { title: "Admin lead review — AthLink Hub" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Admin lead review — AthLink Hub" }, { name: "robots", content: "noindex" }],
   }),
 });
 
@@ -47,8 +44,8 @@ function AdminPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
-      <section className="max-w-7xl mx-auto px-6 pt-12 pb-20">
-        <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16 sm:pb-20">
+        <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
             <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-3">
               Admin · Manual lead queue
@@ -56,124 +53,193 @@ function AdminPage() {
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
               Review businesses before publishing.
             </h1>
-            <p className="text-muted-foreground mt-2 max-w-3xl">
-              ADMIN_LEADS are manual lead records for AthLink Hub. They stay out of public search
-              until a human reviews the source, edits missing information, and explicitly approves
-              them for publishing.
+            <p className="text-muted-foreground mt-2 max-w-2xl">
+              Our crawler surfaces local youth-sports businesses from public sources. Approve, edit,
+              or dismiss before they appear in parent search.
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
-            <Stat label="Needs Review" value={needsReview.length} tone="warn" />
-            <Stat label="Duplicate Risk" value={duplicateRisk.length} />
-            <Stat label="Approved" value={approved.length} tone="success" />
-            <Stat label="Rejected" value={rejected.length} />
+            <Stat label="Pending" value={pending.length} tone="warn" />
+            <Stat
+              label="Approved"
+              value={reviewed.filter((r) => statuses[r.id] === "approved").length}
+              tone="success"
+            />
+            <Stat
+              label="Dismissed"
+              value={reviewed.filter((r) => statuses[r.id] === "dismissed").length}
+            />
           </div>
         </div>
 
-        <div className="mb-8 rounded-3xl bg-warn/15 text-warn-foreground ring-1 ring-warn/20 p-5">
-          <h2 className="font-extrabold">Static review prototype</h2>
-          <p className="mt-1 text-sm opacity-80">
-            Buttons below are mock admin actions only. No database, auth, publishing workflow, or
-            persistent backend changes are connected in this demo.
-          </p>
-        </div>
-
-        <div className="grid xl:grid-cols-[minmax(0,1fr)_440px] gap-8">
-          <div className="bg-card ring-1 ring-black/5 rounded-3xl overflow-hidden shadow-lg">
-            <div className="px-6 py-4 border-b border-border flex items-center justify-between gap-3">
-              <div>
-                <h2 className="font-bold text-sm uppercase tracking-widest">
-                  Businesses to approve ({ADMIN_LEADS.length})
-                </h2>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Manual leads default to Needs Review and are not verified listings.
-                </p>
-              </div>
-              <button
-                type="button"
-                className="text-xs font-mono uppercase font-bold inline-flex items-center gap-1.5 text-muted-foreground cursor-not-allowed"
-                disabled
-              >
-                <RefreshCw className="size-3" /> Mock refresh
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_400px] gap-8">
+          {/* Queue table */}
+          <div className="bg-card ring-1 ring-black/5 rounded-3xl overflow-hidden shadow-lg min-w-0">
+            <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+              <h2 className="font-bold text-sm uppercase tracking-widest">
+                Queue ({pending.length})
+              </h2>
+              <button className="text-xs font-mono uppercase font-bold inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground">
+                <RefreshCw className="size-3" /> Refresh
               </button>
             </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[920px] text-sm">
-                <thead className="bg-secondary/50 text-[10px] uppercase tracking-widest text-muted-foreground">
-                  <tr>
-                    <th className="px-6 py-3 text-left font-bold">Lead</th>
-                    <th className="px-2 py-3 text-left font-bold">Location</th>
-                    <th className="px-2 py-3 text-left font-bold">Source</th>
-                    <th className="px-2 py-3 text-left font-bold">Profile</th>
-                    <th className="px-2 py-3 text-left font-bold">Admin status</th>
-                    <th className="px-2 py-3 text-left font-bold">Confidence</th>
-                    <th className="px-6 py-3 text-right font-bold">Mock actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {ADMIN_LEADS.map((lead) => {
-                    const status = adminStatuses[lead.id];
-                    const location = splitLocation(lead.city);
-                    return (
-                      <tr
-                        key={lead.id}
-                        className={`hover:bg-secondary/30 align-top ${
-                          selected?.id === lead.id ? "bg-secondary/40" : ""
-                        }`}
-                      >
-                        <td className="px-6 py-4">
-                          <button
-                            type="button"
-                            onClick={() => setSelected(lead)}
-                            className="text-left"
+            <table className="hidden md:table w-full text-sm">
+              <thead className="bg-secondary/50 text-[10px] uppercase tracking-widest text-muted-foreground">
+                <tr>
+                  <th className="px-6 py-3 text-left font-bold">Business</th>
+                  <th className="px-2 py-3 text-left font-bold">Confidence</th>
+                  <th className="px-2 py-3 text-left font-bold">Status</th>
+                  <th className="px-6 py-3 text-right font-bold">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {ADMIN_LEADS.map((lead) => {
+                  const s = statuses[lead.id];
+                  return (
+                    <tr
+                      key={lead.id}
+                      className={`hover:bg-secondary/30 ${
+                        selected?.id === lead.id ? "bg-secondary/40" : ""
+                      }`}
+                    >
+                      <td className="px-6 py-4">
+                        <button
+                          type="button"
+                          onClick={() => setSelected(lead)}
+                          className="text-left"
+                        >
+                          <div className="font-bold">{lead.name}</div>
+                          <div className="text-xs text-muted-foreground font-mono">
+                            {lead.tagline} · {lead.neighborhood}
+                          </div>
+                        </button>
+                      </td>
+                      <td className="px-2 py-4">
+                        <Confidence value={lead.confidence ?? 0} />
+                      </td>
+                      <td className="px-2 py-4">
+                        <StatusBadge status={s} />
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="inline-flex gap-1">
+                          <IconBtn onClick={() => setSelected(lead)} label="View">
+                            <Eye className="size-3.5" />
+                          </IconBtn>
+                          <IconBtn
+                            onClick={() => set(lead.id, "approved")}
+                            label="Approve"
+                            tone="success"
+                            disabled={s === "approved"}
                           >
-                            <div className="font-bold">{lead.name}</div>
-                            <div className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                              {lead.services.join(" · ")}
-                            </div>
-                            <div className="mt-2 flex flex-wrap gap-1">
-                              {lead.sports.slice(0, 3).map((sport) => (
-                                <MiniPill key={sport}>{sport}</MiniPill>
-                              ))}
-                            </div>
-                          </button>
-                        </td>
-                        <td className="px-2 py-4 text-xs">
-                          <div className="font-bold">{location.city}</div>
-                          <div className="text-muted-foreground">{location.province}</div>
-                        </td>
-                        <td className="px-2 py-4">
-                          <SourceBadge source={lead.sourceStatus} />
-                        </td>
-                        <td className="px-2 py-4">
-                          <ProfileBadge provider={lead} />
-                        </td>
-                        <td className="px-2 py-4">
-                          <StatusBadge status={status} />
-                        </td>
-                        <td className="px-2 py-4">
-                          <Confidence value={lead.confidence ?? 0} />
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <ActionBar lead={lead} onSelect={setSelected} onStatus={set} />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                            <Check className="size-3.5" />
+                          </IconBtn>
+                          <IconBtn
+                            onClick={() => set(lead.id, "dismissed")}
+                            label="Dismiss"
+                            tone="destructive"
+                            disabled={s === "dismissed"}
+                          >
+                            <X className="size-3.5" />
+                          </IconBtn>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <div className="md:hidden divide-y divide-border">
+              {ADMIN_LEADS.map((lead) => {
+                const s = statuses[lead.id];
+                return (
+                  <div
+                    key={lead.id}
+                    className={`p-4 space-y-4 ${selected?.id === lead.id ? "bg-secondary/40" : ""}`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSelected(lead)}
+                      className="w-full text-left"
+                    >
+                      <div className="font-bold break-words">{lead.name}</div>
+                      <div className="text-xs text-muted-foreground font-mono break-words">
+                        {lead.tagline} · {lead.neighborhood}
+                      </div>
+                    </button>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Confidence value={lead.confidence ?? 0} />
+                      <StatusBadge status={s} />
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <ActionBtn onClick={() => setSelected(lead)} label="View" />
+                      <ActionBtn
+                        onClick={() => set(lead.id, "approved")}
+                        label="Approve"
+                        tone="success"
+                        disabled={s === "approved"}
+                      />
+                      <ActionBtn
+                        onClick={() => set(lead.id, "dismissed")}
+                        label="Dismiss"
+                        tone="destructive"
+                        disabled={s === "dismissed"}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <aside className="xl:sticky xl:top-24 self-start">
             {selected && (
-              <LeadDetail
-                lead={selected}
-                status={adminStatuses[selected.id]}
-                onStatus={set}
-                onSelect={setSelected}
-              />
+              <div className="bg-primary text-primary-foreground rounded-3xl p-4 sm:p-6 shadow-xl min-w-0">
+                <div className="font-mono text-[10px] uppercase tracking-widest opacity-60 mb-2">
+                  Lead detail
+                </div>
+                <h3 className="text-xl font-extrabold mb-1">{selected.name}</h3>
+                <div className="text-xs opacity-70 font-mono mb-6">
+                  Source: {selected.sourceStatus} · {selected.detectedAt?.slice(0, 10)}
+                </div>
+
+                <div className="space-y-4 text-sm">
+                  <DetailRow label="Sports">{selected.sports.join(", ")}</DetailRow>
+                  <DetailRow label="Ages">{selected.ages.join(", ")}</DetailRow>
+                  <DetailRow label="Needs">{selected.needs.join(", ")}</DetailRow>
+                  <DetailRow label="Location">
+                    {selected.neighborhood}, {selected.city}
+                  </DetailRow>
+                  <DetailRow label="Website">{selected.website}</DetailRow>
+                  <DetailRow label="Phone">{selected.phone}</DetailRow>
+                  <DetailRow label="Confidence">
+                    {((selected.confidence ?? 0) * 100).toFixed(0)}%
+                  </DetailRow>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-6">
+                  <button
+                    type="button"
+                    onClick={() => set(selected.id, "approved")}
+                    className="py-2.5 bg-white text-primary text-xs font-bold rounded-lg"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => set(selected.id, "dismissed")}
+                    className="py-2.5 border border-white/20 text-xs font-bold rounded-lg hover:bg-white/5"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+                <Link
+                  to="/providers/$id"
+                  params={{ id: selected.id }}
+                  className="block text-center w-full py-2.5 mt-2 border border-white/10 text-xs font-bold rounded-lg hover:bg-white/5"
+                >
+                  Open public profile →
+                </Link>
+              </div>
             )}
           </aside>
         </div>
@@ -183,152 +249,7 @@ function AdminPage() {
   );
 }
 
-function LeadDetail({
-  lead,
-  status,
-  onStatus,
-  onSelect,
-}: {
-  lead: Provider;
-  status: AdminStatus;
-  onStatus: (id: string, status: AdminStatus) => void;
-  onSelect: (lead: Provider) => void;
-}) {
-  const location = splitLocation(lead.city);
-  const isVerified = lead.sourceStatus === "verified";
-
-  return (
-    <div className="bg-primary text-primary-foreground rounded-3xl p-6 shadow-xl">
-      <div className="font-mono text-[10px] uppercase tracking-widest opacity-60 mb-2">
-        Manual lead detail · source record
-      </div>
-      <h3 className="text-2xl font-extrabold mb-2">{lead.name}</h3>
-      <p className="text-sm opacity-80 mb-5">{lead.description}</p>
-
-      <div className="flex flex-wrap gap-2 mb-6">
-        <StatusBadge status={status} inverse />
-        <span className="bg-white/10 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-tighter">
-          {isVerified ? "Verified" : "Not verified"}
-        </span>
-        <span className="bg-white/10 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-tighter">
-          {lead.profileStatus}
-        </span>
-      </div>
-
-      <div className="space-y-3 text-sm">
-        <DetailRow label="sourceStatus">{lead.sourceStatus}</DetailRow>
-        <DetailRow label="adminStatus">{status}</DetailRow>
-        <DetailRow label="profileStatus">{lead.profileStatus}</DetailRow>
-        <DetailRow label="confidence">{((lead.confidence ?? 0) * 100).toFixed(0)}%</DetailRow>
-        <DetailRow label="sourceUrl">
-          {lead.sourceUrl ? (
-            <a href={lead.sourceUrl} target="_blank" rel="noreferrer" className="underline">
-              {lead.sourceUrl.replace(/^https?:\/\//, "")}
-            </a>
-          ) : (
-            "Not provided"
-          )}
-        </DetailRow>
-        <DetailRow label="city">{location.city}</DetailRow>
-        <DetailRow label="province">{location.province}</DetailRow>
-        <DetailRow label="sports">{lead.sports.join(", ")}</DetailRow>
-        <DetailRow label="needs">
-          {lead.needs.map((need) => NEED_LABELS[need].label).join(", ")}
-        </DetailRow>
-        <DetailRow label="services">{lead.services.join(", ")}</DetailRow>
-        <DetailRow label="adminNotes">{lead.adminNotes ?? "No notes yet."}</DetailRow>
-      </div>
-
-      <div className="mt-6 rounded-2xl bg-white/10 p-4 text-xs opacity-90">
-        Human review required before publishing. Mark Reviewed and Mark Verified are visible as
-        planned workflow steps, but they do not change this static record yet.
-      </div>
-
-      <div className="mt-6">
-        <ActionBar lead={lead} onSelect={onSelect} onStatus={onStatus} full />
-      </div>
-    </div>
-  );
-}
-
-function ActionBar({
-  lead,
-  onSelect,
-  onStatus,
-  full = false,
-}: {
-  lead: Provider;
-  onSelect: (lead: Provider) => void;
-  onStatus: (id: string, status: AdminStatus) => void;
-  full?: boolean;
-}) {
-  return (
-    <div
-      className={full ? "grid grid-cols-2 gap-2" : "inline-flex gap-1 flex-wrap justify-end"}
-    >
-      <MockAction
-        onClick={() => onSelect(lead)}
-        label="Review"
-        icon={<Eye className="size-3.5" />}
-        full={full}
-      />
-      <MockAction
-        label="Edit"
-        icon={<Edit3 className="size-3.5" />}
-        full={full}
-        disabled
-      />
-      <MockAction
-        onClick={() => onStatus(lead.id, "Approved")}
-        label="Approve"
-        icon={<Check className="size-3.5" />}
-        tone="success"
-        full={full}
-      />
-      <MockAction
-        onClick={() => onStatus(lead.id, "Rejected")}
-        label="Reject"
-        icon={<X className="size-3.5" />}
-        tone="destructive"
-        full={full}
-      />
-      <MockAction
-        onClick={() => onStatus(lead.id, "Duplicate Risk")}
-        label="Flag Duplicate"
-        icon={<Flag className="size-3.5" />}
-        full={full}
-      />
-      <MockAction
-        label="Mark Claimed"
-        icon={<UserCheck className="size-3.5" />}
-        full={full}
-        disabled
-      />
-      <MockAction
-        label="Mark Reviewed"
-        icon={<Check className="size-3.5" />}
-        full={full}
-        disabled
-      />
-      <MockAction
-        label="Mark Verified"
-        icon={<ShieldCheck className="size-3.5" />}
-        full={full}
-        disabled
-      />
-    </div>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: number;
-  tone?: "warn" | "success";
-}) {
+function Stat({ label, value, tone }: { label: string; value: number; tone?: "warn" | "success" }) {
   const toneClass =
     tone === "warn"
       ? "bg-warn/20 text-warn-foreground"
@@ -336,11 +257,9 @@ function Stat({
         ? "bg-success/15 text-success-foreground"
         : "bg-secondary text-foreground";
   return (
-    <div className={`${toneClass} rounded-xl px-4 py-3 min-w-24 text-center`}>
-      <div className="text-2xl font-extrabold leading-none">{value}</div>
-      <div className="text-[10px] font-bold uppercase tracking-widest mt-1 opacity-70">
-        {label}
-      </div>
+    <div className={`${toneClass} rounded-xl px-3 sm:px-4 py-3 min-w-20 sm:min-w-24 text-center`}>
+      <div className="text-xl sm:text-2xl font-extrabold leading-none">{value}</div>
+      <div className="text-[10px] font-bold uppercase tracking-widest mt-1 opacity-70">{label}</div>
     </div>
   );
 }
@@ -421,7 +340,6 @@ function MockAction({
       : tone === "destructive"
         ? "hover:bg-destructive/10 hover:text-destructive"
         : "hover:bg-secondary";
-
   return (
     <button
       type="button"
@@ -448,6 +366,9 @@ function MiniPill({ children }: { children: React.ReactNode }) {
 
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
+    <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-white/10 pb-2">
+      <span className="opacity-60 text-xs uppercase tracking-wider font-mono">{label}</span>
+      <span className="font-bold sm:text-right break-words">{children}</span>
     <div className="border-b border-white/10 pb-2">
       <div className="opacity-60 text-[10px] uppercase tracking-wider font-mono mb-1">
         {label}
@@ -457,6 +378,33 @@ function DetailRow({ label, children }: { label: string; children: React.ReactNo
   );
 }
 
+function ActionBtn({
+  onClick,
+  label,
+  tone,
+  disabled,
+}: {
+  onClick: () => void;
+  label: string;
+  tone?: "success" | "destructive";
+  disabled?: boolean;
+}) {
+  const toneClass =
+    tone === "success"
+      ? "bg-success/15 text-success-foreground"
+      : tone === "destructive"
+        ? "bg-destructive/10 text-destructive"
+        : "bg-secondary text-foreground";
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`${toneClass} min-h-10 rounded-xl px-4 text-xs font-bold disabled:opacity-30`}
+    >
+      {label}
+    </button>
+  );
 function splitLocation(location: string) {
   const [city, province] = location.split(",").map((part) => part.trim());
   return { city: city || location, province: province || "Province not listed" };

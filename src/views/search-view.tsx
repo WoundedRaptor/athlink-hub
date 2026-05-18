@@ -38,7 +38,7 @@ export function SearchView() {
 
       {/* Search composer */}
       <section className="px-4 sm:px-6 pt-8 sm:pt-12 pb-6 max-w-7xl mx-auto">
-        <div className="bg-card ring-1 ring-black/5 shadow-xl rounded-3xl p-2 flex flex-col md:flex-row gap-2 animate-reveal">
+        <div className="bg-card ring-1 ring-black/5 shadow-xl rounded-3xl p-2 flex flex-col md:flex-row gap-2 animate-reveal min-w-0">
           <div className="flex-1 p-4 md:border-r border-border">
             <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
               Sport
@@ -152,7 +152,7 @@ export function SearchView() {
             )}
           </div>
 
-          <aside className="w-full lg:w-80 space-y-6">
+          <aside className="w-full lg:w-80 space-y-6 min-w-0">
             <div className="bg-primary p-6 rounded-3xl text-primary-foreground shadow-xl">
               <h3 className="font-bold mb-2">Don't see your provider?</h3>
               <p className="text-sm opacity-80 mb-5">

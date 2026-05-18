@@ -137,21 +137,25 @@ function ProviderPage() {
                   </span>
                 </div>
               )}
-              <div className="space-y-3 text-sm mb-6">
+              <div className="space-y-3 text-sm mb-6 min-w-0">
                 <InfoRow icon={<MapPin className="size-4" />}>
                   {provider.neighborhood} · {provider.city} ({provider.distanceMi} mi)
                 </InfoRow>
-                <InfoRow icon={<Phone className="size-4" />}>
-                  <a href={`tel:${provider.phone}`} className="hover:underline">
-                    {provider.phone}
-                  </a>
-                </InfoRow>
-                <InfoRow icon={<Mail className="size-4" />}>
-                  <a href={`mailto:${provider.email}`} className="hover:underline">
-                    {provider.email}
-                  </a>
-                </InfoRow>
-                <InfoRow icon={<Globe className="size-4" />}>{provider.website}</InfoRow>
+                {provider.phone && (
+                  <InfoRow icon={<Phone className="size-4" />}>
+                    <a href={`tel:${provider.phone}`} className="hover:underline">
+                      {provider.phone}
+                    </a>
+                  </InfoRow>
+                )}
+                {provider.email && (
+                  <InfoRow icon={<Mail className="size-4" />}>
+                    <a href={`mailto:${provider.email}`} className="hover:underline break-all">
+                      {provider.email}
+                    </a>
+                  </InfoRow>
+                )}
+                {provider.website && <InfoRow icon={<Globe className="size-4" />}>{provider.website}</InfoRow>}
               </div>
 
               {showClaimOnlyActions ? (

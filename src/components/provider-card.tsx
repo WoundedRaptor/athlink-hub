@@ -26,6 +26,8 @@ export function ProviderCard({ provider }: { provider: Provider }) {
   const { isSaved, toggle } = useSaved();
   const saved = isSaved(provider.id);
   const isClaimed = provider.profileStatus === "claimed";
+  const isClaimEligibleSource =
+    provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead";
   const sourceLabel =
     provider.sourceStatus === "manual-lead"
       ? "Manual Lead"
@@ -33,8 +35,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
         ? "User Submitted"
         : "AI Discovered";
   const showClaimOnlyActions =
-    provider.profileStatus !== "claimed" &&
-    (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
+    provider.profileStatus !== "claimed" && isClaimEligibleSource;
   const hasPublicReviews = provider.reviews > 0 && provider.rating > 0;
   const cleanWebsite = provider.website && provider.website.toLowerCase() !== "n/a" ? provider.website : "";
   const cleanPhone = provider.phone && provider.phone.toLowerCase() !== "n/a" ? provider.phone : "";

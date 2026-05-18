@@ -15,6 +15,16 @@ import { getRouteApi } from "@tanstack/react-router";
 const routeApi = getRouteApi("/search");
 const NEEDS: Need[] = ["skills", "strength", "recovery", "gear", "camps", "facility"];
 
+function getSortDistance(provider: (typeof PUBLIC_PROVIDERS)[number]) {
+  const isPlaceholderDistance =
+    provider.distanceMi === 0 &&
+    provider.profileStatus !== "claimed" &&
+    (provider.sourceStatus === "manual-lead" || provider.sourceStatus === "ai-discovered");
+
+  if (isPlaceholderDistance) return Number.POSITIVE_INFINITY;
+  return provider.distanceMi > 0 ? provider.distanceMi : Number.POSITIVE_INFINITY;
+}
+
 export function SearchView() {
   const search = routeApi.useSearch();
   const navigate = useNavigate({ from: "/search" });
@@ -49,7 +59,11 @@ export function SearchView() {
       }
 
       return true;
-    }).sort((a, b) => a.distanceMi - b.distanceMi);
+    }).sort((a, b) => {
+      const distanceDiff = getSortDistance(a) - getSortDistance(b);
+      if (distanceDiff !== 0) return distanceDiff;
+      return a.name.localeCompare(b.name);
+    });
   }, [search.sport, search.age, search.need, locationQuery]);
 
   return (

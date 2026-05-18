@@ -592,3 +592,22 @@ Scale-demo approach:
 - Added **Batch 1A** Atlantic manual leads seed file entries (35 providers) in `src/data/provider-seeds-atlantic.ts`.
 - These leads are configured as unclaimed/manual-lead/Approved for MVP display with neutral contact placeholders (`phone: "n/a"`, `email: "n/a"`) and zero review metrics.
 - `src/data/providers.ts` already imports `ATLANTIC_BULK_PROVIDER_LEADS` and includes approved leads in the public approved flow via `PUBLIC_PROVIDERS` while preserving existing providers.
+
+## 2026-05-18 Public Search Distance Placeholder Sort Fix Update
+
+Files changed:
+- `src/views/search-view.tsx`
+  - Added `getSortDistance(provider)` so placeholder/unknown distances no longer dominate default public results.
+  - Sorting behavior now treats `distanceMi: 0` as unknown for unclaimed manual-lead/AI-discovered listings and pushes those records after providers with real positive distances.
+  - Added stable secondary sort by provider name when sort distances tie.
+- `src/components/provider-card.tsx`
+  - Kept claim-only action visibility aligned to explicit rule using `isClaimEligibleSource` helper:
+    - `provider.profileStatus !== "claimed"`
+    - and source in `"ai-discovered" | "manual-lead"`.
+- `src/routes/providers.$id.tsx`
+  - Kept the same explicit claim-only action gating rule using `isClaimEligibleSource` helper for profile-page consistency.
+
+Behavior notes:
+- Approved manual leads still remain eligible to appear publicly via existing `PUBLIC_PROVIDERS` logic.
+- Needs Review leads remain private because public publishing logic was not changed.
+- Status fields (`adminStatus`, `sourceStatus`, `profileStatus`) were not modified by this update.

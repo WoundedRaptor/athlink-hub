@@ -433,3 +433,41 @@ What should be tested next:
 - On `/search`, verify `Claim Listing` appears only when `profileStatus !== "claimed"` and source is `ai-discovered` or `manual-lead`.
 - Open `/providers/$id` for one claimed provider and one unclaimed manual/AI provider and confirm claim CTA visibility matches the same rule.
 - Confirm claimed providers still show normal public actions (contact/book links where available) and not claim-only actions.
+
+## 2026-05-18 Claim Flow Copy + Public Search Behavior Update
+
+Files changed:
+- `src/routes/claim.$id.tsx`
+  - Removed unrealistic postal verification copy, including "Mail a postcard to the business address".
+  - Replaced verification language with realistic static MVP manual review copy:
+    - claim requests are reviewed manually before publishing
+    - verification may use website/email-domain/public contact/follow-up outreach
+    - submissions are not saved yet in the static MVP.
+- `src/views/search-view.tsx`
+  - Expanded public location/search matching so the single search input now matches provider name, city, neighborhood, province/location text, sports, services, and need labels/subtext.
+  - Kept existing sport/age/need filters working and layered on top of the broader query matching.
+  - Improved results header and active-filter visibility with an "Active" filter chip row.
+  - Improved empty state copy to clearly tell parents no providers matched and suggest clearing filters/broadening search.
+  - Kept CTA visible to add/claim a business from the no-results flow.
+
+Additional guardrails confirmed:
+- Claim-only action gating remains aligned in both:
+  - `src/components/provider-card.tsx`
+  - `src/routes/providers.$id.tsx`
+- Rule remains:
+  - `provider.profileStatus !== "claimed"`
+  - and source is `"ai-discovered"` or `"manual-lead"`.
+
+What should be tested next:
+- Search `/search` for:
+  - `JAHM` (expects JAHM Hockey Academy when approved)
+  - `Jason` (expects Jason Cyrus Hypnotherapy when approved)
+  - `Hockey`
+  - `Truro`
+  - `Cumberland`
+  - `strength`
+  - `recovery`
+- Confirm `Needs Review` leads still do not appear publicly.
+- Confirm existing filters (sport, age group, need) still narrow results correctly.
+- Confirm empty state CTA and copy are clear on desktop and ~375px mobile.
+- Confirm claim page no longer references postcard/postal verification and clearly states static MVP/manual review limitations.

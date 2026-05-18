@@ -33,8 +33,7 @@ function ClaimPage() {
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight mb-4">Claim submitted.</h1>
           <p className="text-muted-foreground mb-8">
-            We're reviewing your claim for <strong>{provider.name}</strong>. Once verified, you'll
-            be able to edit services, hours, and bookings.
+            We're reviewing your claim for <strong>{provider.name}</strong>. Claim requests are reviewed manually before changes are published.
           </p>
           <Link
             to="/providers/$id"
@@ -79,13 +78,14 @@ function ClaimPage() {
                 <Shield className="size-5 text-primary" /> Verify you own this business
               </h2>
               <p className="text-sm text-muted-foreground">
-                We'll send a verification code to the business contact on file. Choose how to
-                receive it.
+                Claim requests are reviewed manually before changes are published. We may verify
+                requests using your business website, email domain, public contact information,
+                or follow-up outreach.
               </p>
               <div className="space-y-2">
-                <Option label={`Email — ${provider.email}`} defaultChecked />
-                <Option label={`Phone — ${provider.phone}`} />
-                <Option label="Mail a postcard to the business address" />
+                <Option label={`Business email on file — ${provider.email}`} defaultChecked />
+                <Option label={`Business phone on file — ${provider.phone}`} />
+                <Option label="Business website or public contact listing" />
               </div>
             </>
           )}
@@ -109,11 +109,11 @@ function ClaimPage() {
               <h2 className="text-xl font-bold">Confirm and submit</h2>
               <ul className="space-y-3 text-sm">
                 <ConfirmRow label="Business">{provider.name}</ConfirmRow>
-                <ConfirmRow label="Verification">Email to {provider.email}</ConfirmRow>
+                <ConfirmRow label="Review path">Manual review and follow-up outreach</ConfirmRow>
                 <ConfirmRow label="Source">{provider.sourceStatus}</ConfirmRow>
               </ul>
               <p className="text-xs text-muted-foreground">
-                By submitting, you certify you're authorized to represent this business.
+                By submitting, you certify you're authorized to represent this business. For now, this is a static MVP. Submissions are not saved yet.
               </p>
             </>
           )}

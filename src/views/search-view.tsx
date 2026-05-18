@@ -83,7 +83,7 @@ export function SearchView() {
             </label>
             <input
               type="text"
-              placeholder="Enter Zip or City"
+              placeholder="City or town"
               className="w-full font-semibold bg-transparent focus:outline-none"
               value={search.location}
               onChange={(e) => update({ location: e.target.value })}
@@ -127,7 +127,7 @@ export function SearchView() {
           <div className="flex-1 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
-                Found in {search.location || "Austin"} ({results.length})
+                Found in {search.location || "Atlantic Canada"} ({results.length})
               </h2>
               <span className="text-xs font-mono font-bold uppercase text-muted-foreground">
                 Sort: Distance

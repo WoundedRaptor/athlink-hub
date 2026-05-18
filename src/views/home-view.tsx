@@ -18,7 +18,7 @@ export function HomeView() {
   const navigate = useNavigate();
   const [sport, setSport] = useState<string>(SPORTS[0]);
   const [age, setAge] = useState<AgeGroup>("U12");
-  const [location, setLocation] = useState("Austin, TX");
+  const [location, setLocation] = useState("St. John’s, NL");
 
   const featured = PROVIDERS.slice(0, 2);
 
@@ -39,10 +39,13 @@ export function HomeView() {
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-4">
             Local · Vetted · Parent-first
           </div>
-          <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-balance mb-8">
-            Elite local training for the{" "}
-            <span className="text-primary">next generation.</span>
+          <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-balance mb-4">
+            Find the right local support for your young athlete.
           </h1>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
+            Search coaches, trainers, gear shops, recovery providers, camps, and facilities
+            across Newfoundland &amp; Labrador and Nova Scotia.
+          </p>
 
           <div className="bg-card ring-1 ring-black/5 shadow-2xl rounded-3xl p-2 flex flex-col md:flex-row gap-2">
             <div className="flex-1 p-4 md:border-r border-border">
@@ -88,7 +91,7 @@ export function HomeView() {
               </label>
               <input
                 type="text"
-                placeholder="Enter Zip or City"
+                placeholder="City or town"
                 className="w-full font-semibold bg-transparent focus:outline-none"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
@@ -99,7 +102,7 @@ export function HomeView() {
               onClick={onSearch}
               className="bg-primary text-primary-foreground px-8 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-2"
             >
-              <Search className="size-4" /> Find Providers
+              <Search className="size-4" /> Find Support
             </button>
           </div>
         </div>
@@ -133,7 +136,7 @@ export function HomeView() {
           <div className="flex items-end justify-between mb-8">
             <div>
               <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                Featured in {`Austin, TX`}
+                Featured in Newfoundland &amp; Labrador and Nova Scotia
               </div>
               <h2 className="text-3xl font-extrabold tracking-tight">
                 Trusted by local sports families.

@@ -493,3 +493,39 @@ What should be tested next:
 - Confirm claim copy states manual review and possible follow-up by email or text.
 - In `/search`, confirm provider cards show cleaner parent-facing context (city/sports/needs) while preserving existing service chips.
 - Confirm claim actions only appear when `profileStatus !== "claimed"` and source is `ai-discovered` or `manual-lead` on both cards and provider profiles.
+
+## 2026-05-18 Homepage MVP Demo Polish Update
+
+Files changed:
+- `src/views/home-view.tsx`
+  - Updated hero messaging to clearly explain AthLink Hub in the first screen: trusted local youth-athlete support for parents, launching in Newfoundland & Labrador and Nova Scotia.
+  - Added clear primary homepage CTAs for `Find Support` and `Add or Claim a Business`.
+  - Renamed the needs area heading to `Support categories` while keeping the six core categories: Improve Skills, Build Strength, Recover, Find Gear, Join Camps, Find Facilities.
+  - Added a 3-step `How AthLink Hub works` section:
+    - Search by sport/location/need
+    - Compare providers and services
+    - Contact, book externally, or claim a listing
+  - Added trust/review language clarifying listings may be claimed, reviewed, or manual leads; manual leads are human-reviewed before public publishing; and not all providers are verified partners.
+  - Kept featured providers sourced from `PUBLIC_PROVIDERS` only.
+- `src/components/provider-card.tsx`
+  - Kept claim-only action visibility aligned to explicit rule using helper constants:
+    - `provider.profileStatus !== "claimed"`
+    - and source is `"ai-discovered"` or `"manual-lead"`.
+- `src/routes/providers.$id.tsx`
+  - Kept provider profile claim-only action visibility aligned to the same explicit rule as provider cards.
+
+What did not change:
+- No provider records/data were changed.
+- No provider approval statuses were changed.
+- No public publishing logic was changed.
+- No admin portal behavior was changed.
+- No auth/database/payments/in-app booking logic was added.
+
+What should be tested next:
+- Homepage clarity test: confirm the hero explains the product and launch focus in under 10 seconds.
+- Homepage CTA test: confirm `Find Support` and `Add or Claim a Business` are visually prominent and work.
+- Category section test: confirm all six support categories render and link to search as expected.
+- How-it-works test: confirm copy clearly states booking is external/contact-based in MVP.
+- Trust-language test: confirm homepage does not imply all providers are verified partners.
+- Public data-safety test: confirm featured providers only use `PUBLIC_PROVIDERS` and `Needs Review` leads remain private.
+- Mobile test at ~375px width: confirm hero, CTA row, categories, steps, trust section, and featured cards remain readable without horizontal overflow.

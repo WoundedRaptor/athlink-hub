@@ -529,3 +529,31 @@ What should be tested next:
 - Trust-language test: confirm homepage does not imply all providers are verified partners.
 - Public data-safety test: confirm featured providers only use `PUBLIC_PROVIDERS` and `Needs Review` leads remain private.
 - Mobile test at ~375px width: confirm hero, CTA row, categories, steps, trust section, and featured cards remain readable without horizontal overflow.
+
+
+## 2026-05-18 Final MVP Demo Readiness Audit Update
+
+Audit scope completed:
+- Homepage
+- Search page
+- Provider cards
+- Provider profile page
+- Admin Portal
+- Add / Claim Business
+- Header and footer
+
+Cleanup outcomes:
+- Claim-only actions are now explicitly gated in both public provider cards and provider profile pages using the shared rule:
+  - `provider.profileStatus !== "claimed"`
+  - and `provider.sourceStatus` in `"ai-discovered" | "manual-lead"`.
+- This keeps claim CTA visibility aligned across `/search` cards and `/providers/$id` while leaving approval/public publishing/admin behavior unchanged.
+
+Final MVP checklist status:
+- Approved `ADMIN_LEADS` appear publicly through existing `PUBLIC_PROVIDERS` composition logic.
+- `Needs Review` `ADMIN_LEADS` remain private from public search.
+- Admin Portal continues to show all `ADMIN_LEADS`.
+- Public provider details continue to load from public providers only.
+- Manual leads remain allowed to display as Manual Lead / Unclaimed and are not marked as verified partners by this change.
+
+Known remaining issues:
+- Full dependency-based build command still depends on an environment where package dependencies are installed; local quick checks should be used when dependencies are unavailable.

@@ -1,12 +1,12 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { ProviderImage } from "@/components/provider-card";
-import { getProvider, NEED_LABELS, type Provider } from "@/data/providers";
+import { NEED_LABELS, PUBLIC_PROVIDERS, type Provider } from "@/data/providers";
 import { Phone, Mail, Globe, MapPin, Star, ExternalLink, Shield } from "lucide-react";
 
 export const Route = createFileRoute("/providers/$id")({
   loader: ({ params }) => {
-    const provider = getProvider(params.id);
+    const provider = PUBLIC_PROVIDERS.find((entry) => entry.id === params.id);
     if (!provider) throw notFound();
     return { provider };
   },

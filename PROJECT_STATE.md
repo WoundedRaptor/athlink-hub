@@ -311,3 +311,35 @@ Additional UI fix:
 - Updated claim-only action gating in `src/components/provider-card.tsx` and `src/routes/providers.$id.tsx` to show claim actions only when:
   - `provider.profileStatus !== "claimed"`
   - and source is `"ai-discovered"` or `"manual-lead"`.
+
+## 2026-05-18 Mobile Responsiveness Pass Update
+
+Files changed:
+- `src/components/site-chrome.tsx`
+  - Tightened small-screen header spacing and alignment to prevent brand/actions overflow.
+  - Made Admin Portal button visible and compact on phones so key header actions stay accessible without horizontal scroll.
+- `src/views/home-view.tsx`
+  - Reduced the hero heading size at the smallest breakpoint and reinforced no-overflow behavior in the search composer wrapper.
+- `src/views/search-view.tsx`
+  - Added no-overflow guard classes on the search composer and right-rail aside so mobile results/filters remain readable.
+- `src/components/provider-card.tsx`
+  - Kept claim-only action gating tied to `provider.profileStatus !== "claimed"` and source in `"ai-discovered" | "manual-lead"`.
+  - Improved mobile action button layout so claim/contact/book buttons are full-width and tappable on phone.
+- `src/routes/providers.$id.tsx`
+  - Kept claim-only action gating tied to `provider.profileStatus !== "claimed"` and source in `"ai-discovered" | "manual-lead"`.
+  - Hid empty contact rows (phone/email/website) and improved overflow handling for long contact values.
+
+Mobile issues fixed in this pass:
+- Header action area no longer compresses as aggressively at phone widths; brand and actions remain visible.
+- Hero/search containers have stronger `min-w-0` handling to avoid accidental horizontal overflow.
+- Search page panel layout and side content are constrained for narrow screens.
+- Provider card action rows now wrap/stack into tappable full-width controls on mobile.
+- Provider detail sidebar no longer renders fake-looking empty contact rows and long email text wraps safely.
+
+What should be tested next:
+- At ~375px width, verify no horizontal scroll on: `/`, `/search`, `/providers/$id`, `/add-business`, and `/admin`.
+- Confirm header on phone shows readable `AthLink Hub` brand plus accessible `Admin Portal` and `Add Business` actions.
+- Confirm search filters, badges, and provider cards remain easy to scan and tap on phone.
+- Confirm provider detail page hides blank contact values and keeps source/status chips readable.
+- Confirm Admin Portal queue, count cards, actions, and lead detail panel remain usable on mobile.
+- Confirm `JAHM Hockey Academy` still appears in public search and `Jason Cyrus Hypnotherapy` remains admin-only.

@@ -106,12 +106,12 @@ export function ProviderCard({ provider }: { provider: Provider }) {
               </span>
             )}
           </div>
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto sm:justify-end">
             {showClaimOnlyActions ? (
               <Link
                 to="/claim/$id"
                 params={{ id: provider.id }}
-                className="text-sm font-bold px-4 py-2 bg-accent text-accent-foreground rounded-xl hover:opacity-90 transition-opacity text-center"
+                className="text-sm font-bold px-4 py-2 bg-accent text-accent-foreground rounded-xl hover:opacity-90 transition-opacity text-center w-full sm:w-auto"
               >
                 Claim Listing
               </Link>
@@ -119,7 +119,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
               <>
                 <a
                   href={`tel:${provider.phone}`}
-                  className="text-sm font-bold px-4 py-2 border border-border rounded-xl hover:bg-black/5 transition-colors inline-flex items-center justify-center gap-1.5"
+                  className="text-sm font-bold px-4 py-2 border border-border rounded-xl hover:bg-black/5 transition-colors inline-flex items-center justify-center gap-1.5 w-full sm:w-auto"
                 >
                   <Phone className="size-3.5" /> Contact
                 </a>
@@ -127,7 +127,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
                   href={`https://${provider.website}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm font-bold px-4 py-2 bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-px transition-transform text-center"
+                  className="text-sm font-bold px-4 py-2 bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-px transition-transform text-center w-full sm:w-auto"
                 >
                   Book Now
                 </a>

@@ -39,7 +39,7 @@ export function HomeView() {
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-4">
             Local · Vetted · Parent-first
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-balance mb-4">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-balance mb-4">
             Find the right local support for your young athlete.
           </h1>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
@@ -47,7 +47,7 @@ export function HomeView() {
             Newfoundland &amp; Labrador and Nova Scotia.
           </p>
 
-          <div className="bg-card ring-1 ring-black/5 shadow-2xl rounded-3xl p-2 flex flex-col md:flex-row gap-2">
+          <div className="bg-card ring-1 ring-black/5 shadow-2xl rounded-3xl p-2 flex flex-col md:flex-row gap-2 min-w-0">
             <div className="flex-1 p-4 md:border-r border-border">
               <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
                 Sport

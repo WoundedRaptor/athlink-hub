@@ -387,3 +387,27 @@ What to verify next:
 - Public search excludes all `Needs Review` manual leads.
 - Admin Portal still lists all `ADMIN_LEADS`.
 - Approved manual leads are visually represented as manual/unclaimed and not as verified/partnered/recommended/official.
+
+
+## 2026-05-18 Public Manual-Lead Card/Profile Polish Update
+
+Files changed:
+- `src/components/provider-card.tsx`
+  - Polished public search cards for approved manual leads with cleaner user-facing tagline output derived in UI (for example, `<sport> provider`) without mutating provider data.
+  - Kept manual-lead/unclaimed badge treatment while avoiding verified wording for unclaimed manual leads.
+  - Hid fake review UI when `reviews`/`rating` are zero by only showing ratings when public reviews exist.
+  - Hid contact actions when website/phone is `"n/a"`; only renders usable public contact/profile actions.
+  - Kept claim-only action gating strictly tied to: `profileStatus !== "claimed"` and source in `"ai-discovered" | "manual-lead"`.
+- `src/routes/providers.$id.tsx`
+  - Polished provider detail page copy for approved manual leads by replacing raw admin-style tagline display with clean user-facing label rendering in UI.
+  - Hid placeholder contact fields (`"n/a"` phone/email/website) and rendered website as a safe external link when available.
+  - Hid fake ratings/reviews when no public reviews exist and shows `No public reviews yet` instead.
+  - Added explicit unclaimed listing notice: `This listing is unclaimed. Provider details should be reviewed before relying on them.`
+  - Kept claim-only action gating strictly tied to: `profileStatus !== "claimed"` and source in `"ai-discovered" | "manual-lead"`.
+
+What should be tested next:
+- At `/search`, confirm approved manual leads render cleanly (city/sports/needs/services/unclaimed/manual-lead context) without raw admin-style tagline text.
+- Confirm public cards and detail pages do not show `"n/a"` phone/email/website values.
+- Confirm detail pages show `No public reviews yet` when reviews are zero and only show star ratings when public reviews exist.
+- Confirm unclaimed approved manual leads continue showing claim actions and claimed providers do not show claim-only actions.
+- Confirm `Needs Review` manual leads remain excluded from public search.

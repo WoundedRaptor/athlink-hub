@@ -44,6 +44,14 @@ function ProviderPage() {
       : provider.sourceStatus === "user-submitted"
         ? "User Submitted"
         : "AI Discovered";
+  const hasPublicReviews = provider.reviews > 0 && provider.rating > 0;
+  const cleanPhone = provider.phone && provider.phone.toLowerCase() !== "n/a" ? provider.phone : "";
+  const cleanEmail = provider.email && provider.email.toLowerCase() !== "n/a" ? provider.email : "";
+  const cleanWebsite = provider.website && provider.website.toLowerCase() !== "n/a" ? provider.website : "";
+  const publicTagline =
+    provider.sourceStatus === "manual-lead"
+      ? `${provider.sports[0] ?? "Athlete support"} provider`
+      : provider.tagline;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -76,7 +84,7 @@ function ProviderPage() {
               {provider.name}
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground mb-6 break-words">
-              {provider.tagline}
+              {publicTagline}
             </p>
 
             <div className="aspect-[16/9] rounded-3xl overflow-hidden mb-8 ring-1 ring-black/5">
@@ -128,7 +136,7 @@ function ProviderPage() {
 
           <aside className="space-y-6 lg:sticky lg:top-24 self-start">
             <div className="bg-card ring-1 ring-black/5 rounded-3xl p-4 sm:p-6 shadow-lg min-w-0">
-              {provider.rating > 0 && (
+              {hasPublicReviews && (
                 <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border flex-wrap">
                   <Star className="size-4 fill-current text-accent" />
                   <span className="font-bold">{provider.rating}</span>
@@ -137,25 +145,36 @@ function ProviderPage() {
                   </span>
                 </div>
               )}
+              {!hasPublicReviews && (
+                <div className="text-sm text-muted-foreground mb-4 pb-4 border-b border-border">
+                  No public reviews yet
+                </div>
+              )}
               <div className="space-y-3 text-sm mb-6 min-w-0">
                 <InfoRow icon={<MapPin className="size-4" />}>
                   {provider.neighborhood} · {provider.city} ({provider.distanceMi} mi)
                 </InfoRow>
-                {provider.phone && (
+                {cleanPhone && (
                   <InfoRow icon={<Phone className="size-4" />}>
-                    <a href={`tel:${provider.phone}`} className="hover:underline">
-                      {provider.phone}
+                    <a href={`tel:${cleanPhone}`} className="hover:underline">
+                      {cleanPhone}
                     </a>
                   </InfoRow>
                 )}
-                {provider.email && (
+                {cleanEmail && (
                   <InfoRow icon={<Mail className="size-4" />}>
-                    <a href={`mailto:${provider.email}`} className="hover:underline break-all">
-                      {provider.email}
+                    <a href={`mailto:${cleanEmail}`} className="hover:underline break-all">
+                      {cleanEmail}
                     </a>
                   </InfoRow>
                 )}
-                {provider.website && <InfoRow icon={<Globe className="size-4" />}>{provider.website}</InfoRow>}
+                {cleanWebsite && (
+                  <InfoRow icon={<Globe className="size-4" />}>
+                    <a href={`https://${cleanWebsite}`} target="_blank" rel="noreferrer" className="hover:underline break-all">
+                      {cleanWebsite}
+                    </a>
+                  </InfoRow>
+                )}
               </div>
 
               {showClaimOnlyActions ? (
@@ -168,26 +187,32 @@ function ProviderPage() {
                 </Link>
               ) : (
                 <div className="space-y-2">
-                  <a
-                    href={`https://${provider.website}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-xl text-sm inline-flex items-center justify-center gap-2"
-                  >
-                    <ExternalLink className="size-4" /> Book Now
-                  </a>
-                  <a
-                    href={`tel:${provider.phone}`}
-                    className="block text-center w-full py-3 border border-border font-bold rounded-xl text-sm"
-                  >
-                    Contact provider
-                  </a>
+                  {cleanWebsite && (
+                    <a
+                      href={`https://${cleanWebsite}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full py-3 bg-primary text-primary-foreground font-bold rounded-xl text-sm inline-flex items-center justify-center gap-2"
+                    >
+                      <ExternalLink className="size-4" /> Book Now
+                    </a>
+                  )}
+                  {cleanPhone && (
+                    <a
+                      href={`tel:${cleanPhone}`}
+                      className="block text-center w-full py-3 border border-border font-bold rounded-xl text-sm"
+                    >
+                      Contact provider
+                    </a>
+                  )}
                 </div>
               )}
             </div>
 
             {showClaimOnlyActions && (
               <div className="bg-stone-900 text-white rounded-3xl p-6">
+                <p className="text-xs font-semibold uppercase tracking-wider mb-2 text-white/80">Unclaimed listing</p>
+                <p className="text-sm opacity-90 mb-4">This listing is unclaimed. Provider details should be reviewed before relying on them.</p>
                 <h4 className="font-bold mb-1">Is this you?</h4>
                 <p className="text-sm opacity-70 mb-4">
                   Claim your listing to update services, hours, and share external booking or contact

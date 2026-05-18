@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Star, Phone, MapPin } from "lucide-react";
+import { Star, Phone, MapPin, Globe } from "lucide-react";
 import type { Provider } from "@/data/providers";
 import { useSaved } from "@/hooks/use-saved";
 
@@ -35,6 +35,13 @@ export function ProviderCard({ provider }: { provider: Provider }) {
   const showClaimOnlyActions =
     provider.profileStatus !== "claimed" &&
     (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
+  const hasPublicReviews = provider.reviews > 0 && provider.rating > 0;
+  const cleanWebsite = provider.website && provider.website.toLowerCase() !== "n/a" ? provider.website : "";
+  const cleanPhone = provider.phone && provider.phone.toLowerCase() !== "n/a" ? provider.phone : "";
+  const publicTagline =
+    provider.sourceStatus === "manual-lead"
+      ? `${provider.sports[0] ?? "Athlete support"} provider`
+      : provider.tagline;
 
   return (
     <div
@@ -72,7 +79,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
               </h3>
             </Link>
             <p className="text-sm text-muted-foreground mt-1 font-medium break-words">
-              {provider.tagline} • {provider.ages.join(", ")}
+              {publicTagline} • {provider.ages.join(", ")}
             </p>
             <div className="flex flex-wrap gap-1.5 mt-3">
               {provider.services.slice(0, 3).map((s) => (
@@ -99,8 +106,8 @@ export function ProviderCard({ provider }: { provider: Provider }) {
         <div className="mt-auto pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="text-xs font-mono text-muted-foreground uppercase flex items-center gap-1.5 flex-wrap min-w-0 break-words">
             <MapPin className="size-3" />
-            {provider.distanceMi} mi • {provider.neighborhood}
-            {provider.rating > 0 && (
+            {provider.city}
+            {hasPublicReviews && (
               <span className="ml-3 inline-flex items-center gap-1 normal-case">
                 <Star className="size-3 fill-current text-accent" /> {provider.rating}
               </span>
@@ -117,20 +124,24 @@ export function ProviderCard({ provider }: { provider: Provider }) {
               </Link>
             ) : (
               <>
-                <a
-                  href={`tel:${provider.phone}`}
-                  className="text-sm font-bold px-4 py-2 border border-border rounded-xl hover:bg-black/5 transition-colors inline-flex items-center justify-center gap-1.5 w-full sm:w-auto"
-                >
-                  <Phone className="size-3.5" /> Contact
-                </a>
-                <a
-                  href={`https://${provider.website}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm font-bold px-4 py-2 bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-px transition-transform text-center w-full sm:w-auto"
-                >
-                  Book Now
-                </a>
+                {cleanPhone && (
+                  <a
+                    href={`tel:${cleanPhone}`}
+                    className="text-sm font-bold px-4 py-2 border border-border rounded-xl hover:bg-black/5 transition-colors inline-flex items-center justify-center gap-1.5 w-full sm:w-auto"
+                  >
+                    <Phone className="size-3.5" /> Contact
+                  </a>
+                )}
+                {cleanWebsite && (
+                  <a
+                    href={`https://${cleanWebsite}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm font-bold px-4 py-2 bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-px transition-transform inline-flex items-center justify-center gap-1.5 text-center w-full sm:w-auto"
+                  >
+                    <Globe className="size-3.5" /> View Profile
+                  </a>
+                )}
               </>
             )}
           </div>

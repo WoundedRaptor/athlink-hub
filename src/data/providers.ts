@@ -1,3 +1,4 @@
+import { ATLANTIC_BULK_PROVIDER_LEADS } from "@/data/provider-seeds-atlantic";
 export type Need = "skills" | "strength" | "recovery" | "gear" | "camps" | "facility";
 
 export type AgeGroup = "U10" | "U12" | "U14" | "HS" | "All";
@@ -267,7 +268,7 @@ export const PROVIDERS: Provider[] = [
   },
 ];
 
-export const ADMIN_LEADS: Provider[] = [
+const CORE_ADMIN_LEADS: Provider[] = [
   {
     id: "lead-jason-cyrus",
     name: "Jason Cyrus Hypnotherapy",
@@ -821,6 +822,8 @@ export const NEEDS_MORE_RESEARCH = [
     note: "Could not confidently verify Moncton hockey skills provider.",
   },
 ];
+
+export const ADMIN_LEADS: Provider[] = [...CORE_ADMIN_LEADS, ...ATLANTIC_BULK_PROVIDER_LEADS];
 
 export const PUBLIC_PROVIDERS: Provider[] = [
   ...PROVIDERS,

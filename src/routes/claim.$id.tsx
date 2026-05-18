@@ -98,7 +98,7 @@ function ClaimPage() {
                 <TextField label="Your name" placeholder="Jamie Rivera" />
                 <TextField label="Your role" placeholder="Owner / Director" />
                 <TextField label="Email" placeholder="you@business.com" type="email" />
-                <TextField label="Phone" placeholder="(512) 555-0100" type="tel" />
+                <TextField label="Phone" placeholder="(709) 555-0100" type="tel" />
               </div>
               <TextField
                 label="Anything we should know?"

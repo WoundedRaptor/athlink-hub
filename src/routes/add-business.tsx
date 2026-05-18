@@ -92,7 +92,7 @@ function AddBusinessPage() {
               <input
                 type="tel"
                 required
-                placeholder="(512) 555-0100"
+                placeholder="(902) 555-0100"
                 className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </Field>

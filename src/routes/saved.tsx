@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { ProviderCard } from "@/components/provider-card";
-import { PROVIDERS, ADMIN_LEADS } from "@/data/providers";
+import { PUBLIC_PROVIDERS } from "@/data/providers";
 import { useSaved } from "@/hooks/use-saved";
 
 export const Route = createFileRoute("/saved")({
@@ -11,8 +11,7 @@ export const Route = createFileRoute("/saved")({
 
 function SavedPage() {
   const { ids } = useSaved();
-  const pool = [...PROVIDERS, ...ADMIN_LEADS];
-  const saved = pool.filter((p) => ids.includes(p.id));
+  const saved = PUBLIC_PROVIDERS.filter((p) => ids.includes(p.id));
 
   return (
     <div className="min-h-screen bg-background text-foreground">

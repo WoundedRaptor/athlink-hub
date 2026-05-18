@@ -34,7 +34,7 @@ export const Route = createFileRoute("/providers/$id")({
 });
 
 function ProviderPage() {
-  const { provider } = Route.useLoaderData();
+  const { provider } = Route.useLoaderData() as { provider: Provider };
   const isAi = provider.sourceStatus === "ai-discovered";
 
   return (

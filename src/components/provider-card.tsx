@@ -25,12 +25,20 @@ export function ProviderImage({
 export function ProviderCard({ provider }: { provider: Provider }) {
   const { isSaved, toggle } = useSaved();
   const saved = isSaved(provider.id);
-  const isAi = provider.sourceStatus === "ai-discovered";
+  const isClaimed = provider.profileStatus === "claimed";
+  const sourceLabel =
+    provider.sourceStatus === "manual-lead"
+      ? "Manual Lead"
+      : provider.sourceStatus === "user-submitted"
+        ? "User Submitted"
+        : "AI Discovered";
+  const showClaimAction =
+    provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead";
 
   return (
     <div
       className={`group bg-card p-4 sm:p-6 rounded-3xl ring-1 ring-black/5 flex flex-col md:flex-row gap-4 sm:gap-6 hover:shadow-xl transition-shadow min-w-0 ${
-        isAi ? "border-l-4 border-warn/40" : ""
+        showClaimAction ? "border-l-4 border-warn/40" : ""
       }`}
     >
       <Link
@@ -44,13 +52,13 @@ export function ProviderCard({ provider }: { provider: Provider }) {
         <div className="flex justify-between items-start gap-3 min-w-0">
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              {provider.profileStatus === "claimed" ? (
+              {isClaimed ? (
                 <span className="bg-success/15 text-success-foreground text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter">
                   Verified Provider
                 </span>
               ) : (
                 <span className="bg-warn/20 text-warn-foreground text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter">
-                  AI Discovered
+                  {sourceLabel}
                 </span>
               )}
               <span className="text-xs font-mono text-muted-foreground uppercase">
@@ -98,7 +106,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            {isAi ? (
+            {showClaimAction ? (
               <Link
                 to="/claim/$id"
                 params={{ id: provider.id }}

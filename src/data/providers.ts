@@ -271,7 +271,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-jason-cyrus",
     name: "Jason Cyrus Hypnotherapy",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Moncton-based hypnotherapy and mental performance lead connected to athlete mindset and performance support. Needs provider review before publishing.",
     sports: ["Multi-sport", "Hockey"],
@@ -290,7 +290,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://jasoncyrus.com/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "calm mental performance coaching office for athletes",
     imageHue: "from-sky-100 to-stone-300",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -301,7 +301,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-jahm-hockey",
     name: "JAHM Hockey Academy",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Cumberland County hockey development lead offering hockey camps, skill development, power skating, and strength and conditioning connections.",
     sports: ["Hockey"],
@@ -390,7 +390,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-east-coast-ice",
     name: "East Coast Ice",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Dieppe hockey development lead offering hockey development, spring hockey, summer camps, and elite training opportunities.",
     sports: ["Hockey"],
@@ -409,7 +409,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://eastcoastice.ca/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "youth hockey players lined up for development drills",
     imageHue: "from-cyan-100 to-stone-300",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -448,7 +448,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-atlantic-hockey-group",
     name: "Atlantic Hockey Group",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Atlantic Canadian hockey program lead offering hockey schools, spring hockey, leagues, tournaments, and development programs.",
     sports: ["Hockey"],
@@ -467,7 +467,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://atlantichockeygroup.com/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "regional youth hockey tournament and development program",
     imageHue: "from-red-100 to-stone-300",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -477,7 +477,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-busby-strength",
     name: "Busby Strength & Conditioning",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Bedford strength and conditioning lead offering private training, strength training, and athlete performance support.",
     sports: ["Multi-sport", "Performance Training"],
@@ -496,7 +496,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://www.busbysc.com/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "strength and conditioning gym with racks turf and sleds",
     imageHue: "from-stone-300 to-emerald-300",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -506,7 +506,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-adapt-performance",
     name: "ADAPT Performance Training",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Elmsdale performance and rehab-informed training lead offering personal training, team training, performance training, and physical therapy services.",
     sports: ["Multi-sport", "Performance Training"],
@@ -525,7 +525,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://www.adaptplus.ca/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "performance training facility with rehab and strength equipment",
     imageHue: "from-green-100 to-stone-300",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -535,7 +535,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-impact-performance",
     name: "Impact Performance",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Truro athlete development lead offering strength and conditioning, athlete development, sport organization training, and rehabilitation support.",
     sports: ["Multi-sport", "Performance Training"],
@@ -559,7 +559,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://www.trainwithimpact.com/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "athlete development facility with strength equipment and turf",
     imageHue: "from-orange-100 to-stone-300",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -569,7 +569,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-proedge-elite",
     name: "Proedge Elite Training",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Bedford and Halifax personal training facility lead offering strength and conditioning, athletic training, and mobility training.",
     sports: ["Multi-sport", "Performance Training"],
@@ -588,7 +588,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://www.proedgetraining.com/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "personal training studio for athlete strength and mobility",
     imageHue: "from-zinc-200 to-green-300",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -658,7 +658,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-cumberland-minor-hockey",
     name: "Cumberland County Minor Hockey Association",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Cumberland County minor hockey association lead offering youth hockey registration, team programs, and player development pathways.",
     sports: ["Hockey"],
@@ -677,7 +677,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://cumberlandminorhockey.ca/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "minor hockey association rink with youth teams practicing",
     imageHue: "from-slate-100 to-blue-200",
     detectedAt: "2026-05-18T00:00:00Z",
@@ -687,7 +687,7 @@ export const ADMIN_LEADS: Provider[] = [
   {
     id: "lead-truro-minor-hockey",
     name: "Truro Area Minor Hockey Association",
-    tagline: "Manual lead · Needs Review",
+    tagline: "Manual lead · Approved for MVP display",
     description:
       "Truro minor hockey association lead offering youth hockey registration, team programs, and player development pathways.",
     sports: ["Hockey"],
@@ -706,7 +706,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://truro.goalline.ca/",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "community hockey rink with youth hockey program signage",
     imageHue: "from-blue-100 to-stone-300",
     detectedAt: "2026-05-18T00:00:00Z",

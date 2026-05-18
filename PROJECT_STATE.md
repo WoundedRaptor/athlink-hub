@@ -343,3 +343,47 @@ What should be tested next:
 - Confirm provider detail page hides blank contact values and keeps source/status chips readable.
 - Confirm Admin Portal queue, count cards, actions, and lead detail panel remain usable on mobile.
 - Confirm `JAHM Hockey Academy` still appears in public search and `Jason Cyrus Hypnotherapy` remains admin-only.
+
+## 2026-05-18 First Public MVP Provider Batch Update
+
+What was changed:
+- Updated `ADMIN_LEADS` in `src/data/providers.ts` to approve the first manual MVP display batch by setting:
+  - `adminStatus: "Approved"`
+  - `tagline: "Manual lead · Approved for MVP display"`
+- Approved batch:
+  - Jason Cyrus Hypnotherapy
+  - JAHM Hockey Academy
+  - East Coast Ice
+  - Atlantic Hockey Group
+  - Busby Strength & Conditioning
+  - ADAPT Performance Training
+  - Impact Performance
+  - Proedge Elite Training
+  - Cumberland County Minor Hockey Association
+  - Truro Area Minor Hockey Association
+- Kept the following leads as `adminStatus: "Needs Review"` with `tagline: "Manual lead · Needs Review"`:
+  - East Coast Athlete
+  - Halifax 902 Elite
+  - Pro Evolution Hockey
+  - Rinkside Hockey
+  - Andrews Hockey Growth Programs
+  - HaTha Yoga Room
+  - O2Max
+  - Hubletes Hockey
+
+Guardrails preserved:
+- `sourceStatus` values were not changed.
+- `profileStatus` values were not changed.
+- No lead was marked verified, partnered, recommended, official, or claimed.
+- `PUBLIC_PROVIDERS` logic remains unchanged and still includes `PROVIDERS` plus only `ADMIN_LEADS` with `adminStatus === "Approved"`.
+
+Claim-only action gating:
+- `src/components/provider-card.tsx` and `src/routes/providers.$id.tsx` use claim-only action gating only when:
+  - `provider.profileStatus !== "claimed"`
+  - and source is `"ai-discovered"` or `"manual-lead"`.
+
+What to verify next:
+- Public search includes the approved manual MVP batch, including Jason Cyrus Hypnotherapy and JAHM Hockey Academy.
+- Public search excludes all `Needs Review` manual leads.
+- Admin Portal still lists all `ADMIN_LEADS`.
+- Approved manual leads are visually represented as manual/unclaimed and not as verified/partnered/recommended/official.

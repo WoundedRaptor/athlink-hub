@@ -35,7 +35,7 @@ export const Route = createFileRoute("/providers/$id")({
 
 function ProviderPage() {
   const { provider } = Route.useLoaderData() as { provider: Provider };
-  const isUnclaimedLead =
+  const showClaimOnlyActions =
     provider.profileStatus !== "claimed" &&
     (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
   const sourceLabel =
@@ -154,7 +154,7 @@ function ProviderPage() {
                 <InfoRow icon={<Globe className="size-4" />}>{provider.website}</InfoRow>
               </div>
 
-              {isUnclaimedLead ? (
+              {showClaimOnlyActions ? (
                 <Link
                   to="/claim/$id"
                   params={{ id: provider.id }}
@@ -182,7 +182,7 @@ function ProviderPage() {
               )}
             </div>
 
-            {isUnclaimedLead && (
+            {showClaimOnlyActions && (
               <div className="bg-stone-900 text-white rounded-3xl p-6">
                 <h4 className="font-bold mb-1">Is this you?</h4>
                 <p className="text-sm opacity-70 mb-4">

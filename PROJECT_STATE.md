@@ -293,3 +293,21 @@ What should be tested next:
 - Confirm summary counts match the current `ADMIN_LEADS` statuses.
 - Temporarily mark one safe test lead as `adminStatus: "Approved"`, confirm it appears in public search, then revert it if it should remain unpublished.
 - Confirm manual leads are not shown as verified, partnered, recommended, or official in Admin Portal, public cards, or direct provider profiles.
+
+## 2026-05-18 Admin Status Source-of-Truth Fix Update
+
+What was fixed:
+- `src/routes/admin.tsx` now reads each lead status from `ADMIN_LEADS` (`lead.adminStatus`) as the baseline source of truth.
+- The Admin Portal no longer assumes all leads are `Needs Review`; statuses are derived per lead from real provider data.
+- Dashboard status counts are now calculated from each lead’s effective status (provider data + optional local UI override), so approved leads such as JAHM Hockey Academy are counted under `Approved` when `providers.ts` sets them that way.
+- Mock action buttons remain UI-only for demo workflow behavior. Local in-memory state is now treated strictly as temporary overrides initialized implicitly from real lead data, so it does not incorrectly replace baseline provider statuses.
+
+Static MVP status-management rule:
+- In the static MVP, `src/data/providers.ts` is the source of truth for admin review status.
+- To persist a lead status, update that lead’s `adminStatus` in `ADMIN_LEADS`.
+- Admin Portal buttons are for UI demonstration only and should not be relied on for persistence.
+
+Additional UI fix:
+- Updated claim-only action gating in `src/components/provider-card.tsx` and `src/routes/providers.$id.tsx` to show claim actions only when:
+  - `provider.profileStatus !== "claimed"`
+  - and source is `"ai-discovered"` or `"manual-lead"`.

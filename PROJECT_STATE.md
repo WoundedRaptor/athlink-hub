@@ -586,3 +586,9 @@ Scale-demo approach:
 - Continue using `ADMIN_LEADS` as the Admin Portal source so all manual leads (core + bulk seed) remain review-visible.
 - Continue using `PUBLIC_PROVIDERS` filtering so only approved manual leads are publicly visible.
 - Keep this static and human-reviewed for MVP; no database/auth/payment/booking/scraping/API integration was introduced.
+
+## Update 2026-05-18
+
+- Added **Batch 1A** Atlantic manual leads seed file entries (35 providers) in `src/data/provider-seeds-atlantic.ts`.
+- These leads are configured as unclaimed/manual-lead/Approved for MVP display with neutral contact placeholders (`phone: "n/a"`, `email: "n/a"`) and zero review metrics.
+- `src/data/providers.ts` already imports `ATLANTIC_BULK_PROVIDER_LEADS` and includes approved leads in the public approved flow via `PUBLIC_PROVIDERS` while preserving existing providers.

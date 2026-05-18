@@ -35,7 +35,14 @@ export const Route = createFileRoute("/providers/$id")({
 
 function ProviderPage() {
   const { provider } = Route.useLoaderData() as { provider: Provider };
-  const isAi = provider.sourceStatus === "ai-discovered";
+  const isUnclaimedLead =
+    provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead";
+  const sourceLabel =
+    provider.sourceStatus === "manual-lead"
+      ? "Manual Lead"
+      : provider.sourceStatus === "user-submitted"
+        ? "User Submitted"
+        : "AI Discovered";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -57,7 +64,7 @@ function ProviderPage() {
                 </span>
               ) : (
                 <span className="bg-warn/20 text-warn-foreground text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter">
-                  AI Discovered
+                  {sourceLabel}
                 </span>
               )}
               <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -146,7 +153,7 @@ function ProviderPage() {
                 <InfoRow icon={<Globe className="size-4" />}>{provider.website}</InfoRow>
               </div>
 
-              {isAi ? (
+              {isUnclaimedLead ? (
                 <Link
                   to="/claim/$id"
                   params={{ id: provider.id }}

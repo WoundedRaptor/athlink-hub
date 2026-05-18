@@ -252,3 +252,44 @@ What should be tested next:
 - Open `/admin` and confirm Jason Cyrus Hypnotherapy and the other manual leads render in the Admin Portal queue.
 - Open public search and confirm manual leads from `ADMIN_LEADS` do not appear.
 - From the Admin Portal, open a lead profile and confirm the provider detail route can load the lead for review context.
+
+## 2026-05-18 Admin Portal MVP Rebuild Update
+
+Files changed:
+- `src/routes/admin.tsx`
+  - Rebuilt the static Admin Portal around `ADMIN_LEADS` as the manual lead review queue.
+  - Added summary cards for Total Leads, Needs Review, Missing Info, Duplicate Risk, Ready to Publish, Approved, and Rejected.
+  - Added mobile-friendly lead cards and a desktop review table that show each lead's name, city, sports, needs, profile status, source status, admin status, and confidence when present.
+  - Added a selected lead details panel with safe optional rendering for tagline, description, city, neighborhood, sports, ages, needs, services, profile status, source status, admin status, confidence, source URL, admin notes, website, phone, and email.
+  - Added UI-only review actions: Review, Edit, Approve, Reject, Flag Duplicate, Mark Claimed, Mark Reviewed, and Mark Verified.
+  - Added the MVP note: “Static MVP: update provider status in providers.ts to publish or change status.”
+- `src/data/providers.ts`
+  - Updated `PUBLIC_PROVIDERS` so public search includes all `PROVIDERS` plus only `ADMIN_LEADS` where `adminStatus === "Approved"`.
+  - Unapproved manual leads remain out of public search.
+- `src/components/provider-card.tsx`
+  - Updated public provider card badges so approved manual leads are labelled `Manual Lead` and `Unclaimed` instead of being shown as verified, partnered, recommended, official, or AI-discovered.
+- `src/routes/providers.$id.tsx`
+  - Updated provider profile badges/actions so manual leads are labelled `Manual Lead` when viewed directly and are not shown as verified unless their profile is actually claimed.
+
+How Admin Portal works now:
+- `/admin` is a static MVP review control center backed entirely by `ADMIN_LEADS` in `src/data/providers.ts`.
+- The summary counts are calculated from the in-memory admin statuses initialized from each lead's `adminStatus`.
+- Selecting a queue item updates the details panel in the current browser session only.
+- Approve, Reject, and Flag Duplicate update temporary in-memory status state for the session so reviewers can preview the workflow.
+- Review, Edit, Mark Claimed, Mark Reviewed, and Mark Verified are UI-only placeholders and do not persist changes.
+- Jason Cyrus Hypnotherapy remains in `ADMIN_LEADS` and appears in the review queue when the Admin Portal renders.
+
+How to manually publish a provider:
+- Edit the provider record in `src/data/providers.ts` under `ADMIN_LEADS`.
+- Change `adminStatus` to `"Approved"` only after human review.
+- Confirm the lead should still have accurate `profileStatus`, `sourceStatus`, contact fields, services, sports, ages, and needs before publishing.
+- `PUBLIC_PROVIDERS` will automatically include approved admin leads in public search because it combines `PROVIDERS` with `ADMIN_LEADS.filter((provider) => provider.adminStatus === "Approved")`.
+- Leads with `Needs Review`, `Missing Info`, `Duplicate Risk`, `Ready to Publish`, or `Rejected` do not appear in public search.
+
+What should be tested next:
+- Run the normal build in an environment where dependencies can be installed or are already available.
+- Open `/admin` at desktop and around 375px width and confirm there is no horizontal overflow, badges wrap, actions wrap, and details remain readable.
+- Confirm the Admin Portal queue includes Jason Cyrus Hypnotherapy and the rest of `ADMIN_LEADS`.
+- Confirm summary counts match the current `ADMIN_LEADS` statuses.
+- Temporarily mark one safe test lead as `adminStatus: "Approved"`, confirm it appears in public search, then revert it if it should remain unpublished.
+- Confirm manual leads are not shown as verified, partnered, recommended, or official in Admin Portal, public cards, or direct provider profiles.

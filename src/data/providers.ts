@@ -822,7 +822,10 @@ export const NEEDS_MORE_RESEARCH = [
   },
 ];
 
-export const PUBLIC_PROVIDERS: Provider[] = PROVIDERS;
+export const PUBLIC_PROVIDERS: Provider[] = [
+  ...PROVIDERS,
+  ...ADMIN_LEADS.filter((provider) => provider.adminStatus === "Approved"),
+];
 
 export function getProvider(id: string): Provider | undefined {
   return [...PROVIDERS, ...ADMIN_LEADS].find((p) => p.id === id);

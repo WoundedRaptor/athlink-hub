@@ -320,7 +320,7 @@ export const ADMIN_LEADS: Provider[] = [
     sourceUrl: "https://www.eastcoastathlete.com/jahm",
     profileStatus: "unclaimed",
     sourceStatus: "manual-lead",
-    adminStatus: "Needs Review",
+    adminStatus: "Approved",
     imagePrompt: "youth hockey development camp on indoor ice",
     imageHue: "from-blue-100 to-stone-300",
     detectedAt: "2026-05-18T00:00:00Z",

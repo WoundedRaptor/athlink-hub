@@ -411,3 +411,25 @@ What should be tested next:
 - Confirm detail pages show `No public reviews yet` when reviews are zero and only show star ratings when public reviews exist.
 - Confirm unclaimed approved manual leads continue showing claim actions and claimed providers do not show claim-only actions.
 - Confirm `Needs Review` manual leads remain excluded from public search.
+
+## 2026-05-18 Claim-Only CTA Gating Alignment Update
+
+Files changed:
+- `src/components/provider-card.tsx`
+  - Aligned claim-only action gating to the explicit shared rule:
+    - `provider.profileStatus !== "claimed"`
+    - and source is `"ai-discovered"` or `"manual-lead"`.
+  - Introduced `isClaimEligibleSource` helper constant to keep the claim visibility rule readable and consistent.
+- `src/routes/providers.$id.tsx`
+  - Applied the same explicit claim-only gating rule and helper constant in the provider profile route so Claim Listing UI is hidden for claimed profiles.
+
+What did not change:
+- No provider data/status records were modified.
+- No public publishing logic was changed.
+- No admin portal behavior was changed.
+- No backend/auth/database/payment/booking logic was added.
+
+What should be tested next:
+- On `/search`, verify `Claim Listing` appears only when `profileStatus !== "claimed"` and source is `ai-discovered` or `manual-lead`.
+- Open `/providers/$id` for one claimed provider and one unclaimed manual/AI provider and confirm claim CTA visibility matches the same rule.
+- Confirm claimed providers still show normal public actions (contact/book links where available) and not claim-only actions.

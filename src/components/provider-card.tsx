@@ -32,9 +32,9 @@ export function ProviderCard({ provider }: { provider: Provider }) {
       : provider.sourceStatus === "user-submitted"
         ? "User Submitted"
         : "AI Discovered";
-  const isClaimEligibleSource =
-    provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead";
-  const showClaimOnlyActions = provider.profileStatus !== "claimed" && isClaimEligibleSource;
+  const showClaimOnlyActions =
+    provider.profileStatus !== "claimed" &&
+    (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
   const hasPublicReviews = provider.reviews > 0 && provider.rating > 0;
   const cleanWebsite = provider.website && provider.website.toLowerCase() !== "n/a" ? provider.website : "";
   const cleanPhone = provider.phone && provider.phone.toLowerCase() !== "n/a" ? provider.phone : "";
@@ -80,6 +80,9 @@ export function ProviderCard({ provider }: { provider: Provider }) {
             </Link>
             <p className="text-sm text-muted-foreground mt-1 font-medium break-words">
               {publicTagline} • {provider.ages.join(", ")}
+            </p>
+            <p className="text-xs text-muted-foreground mt-2 break-words">
+              {provider.city} · Sports: {provider.sports.join(", ")} · Needs: {provider.needs.map((need) => need.replaceAll("-", " ")).join(", ")}
             </p>
             <div className="flex flex-wrap gap-1.5 mt-3">
               {provider.services.slice(0, 3).map((s) => (

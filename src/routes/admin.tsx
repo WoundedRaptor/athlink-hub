@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import {
   ADMIN_LEADS,
@@ -59,16 +59,14 @@ function AdminPage() {
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
-            <Stat label="Pending" value={pending.length} tone="warn" />
+            <Stat label="Pending" value={needsReview.length} tone="warn" />
             <Stat
               label="Approved"
-              value={reviewed.filter((r) => statuses[r.id] === "approved").length}
+              value={approved.length}
               tone="success"
             />
-            <Stat
-              label="Dismissed"
-              value={reviewed.filter((r) => statuses[r.id] === "dismissed").length}
-            />
+            <Stat label="Rejected" value={rejected.length} />
+            <Stat label="Duplicate" value={duplicateRisk.length} />
           </div>
         </div>
 
@@ -77,7 +75,7 @@ function AdminPage() {
           <div className="bg-card ring-1 ring-black/5 rounded-3xl overflow-hidden shadow-lg min-w-0">
             <div className="px-6 py-4 border-b border-border flex items-center justify-between">
               <h2 className="font-bold text-sm uppercase tracking-widest">
-                Queue ({pending.length})
+                Queue ({ADMIN_LEADS.length})
               </h2>
               <button className="text-xs font-mono uppercase font-bold inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground">
                 <RefreshCw className="size-3" /> Refresh
@@ -94,7 +92,7 @@ function AdminPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {ADMIN_LEADS.map((lead) => {
-                  const s = statuses[lead.id];
+                  const s = adminStatuses[lead.id] ?? lead.adminStatus ?? "Needs Review";
                   return (
                     <tr
                       key={lead.id}
@@ -122,25 +120,25 @@ function AdminPage() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="inline-flex gap-1">
-                          <IconBtn onClick={() => setSelected(lead)} label="View">
-                            <Eye className="size-3.5" />
-                          </IconBtn>
-                          <IconBtn
-                            onClick={() => set(lead.id, "approved")}
+                          <MockAction
+                            icon={<Eye className="size-3.5" />}
+                            onClick={() => setSelected(lead)}
+                            label="View"
+                          />
+                          <MockAction
+                            icon={<Check className="size-3.5" />}
+                            onClick={() => set(lead.id, "Approved")}
                             label="Approve"
                             tone="success"
-                            disabled={s === "approved"}
-                          >
-                            <Check className="size-3.5" />
-                          </IconBtn>
-                          <IconBtn
-                            onClick={() => set(lead.id, "dismissed")}
-                            label="Dismiss"
+                            disabled={s === "Approved"}
+                          />
+                          <MockAction
+                            icon={<X className="size-3.5" />}
+                            onClick={() => set(lead.id, "Rejected")}
+                            label="Reject"
                             tone="destructive"
-                            disabled={s === "dismissed"}
-                          >
-                            <X className="size-3.5" />
-                          </IconBtn>
+                            disabled={s === "Rejected"}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -150,7 +148,7 @@ function AdminPage() {
             </table>
             <div className="md:hidden divide-y divide-border">
               {ADMIN_LEADS.map((lead) => {
-                const s = statuses[lead.id];
+                const s = adminStatuses[lead.id] ?? lead.adminStatus ?? "Needs Review";
                 return (
                   <div
                     key={lead.id}
@@ -173,16 +171,16 @@ function AdminPage() {
                     <div className="flex flex-wrap gap-2">
                       <ActionBtn onClick={() => setSelected(lead)} label="View" />
                       <ActionBtn
-                        onClick={() => set(lead.id, "approved")}
+                        onClick={() => set(lead.id, "Approved")}
                         label="Approve"
                         tone="success"
-                        disabled={s === "approved"}
+                        disabled={s === "Approved"}
                       />
                       <ActionBtn
-                        onClick={() => set(lead.id, "dismissed")}
-                        label="Dismiss"
+                        onClick={() => set(lead.id, "Rejected")}
+                        label="Reject"
                         tone="destructive"
-                        disabled={s === "dismissed"}
+                        disabled={s === "Rejected"}
                       />
                     </div>
                   </div>
@@ -219,17 +217,17 @@ function AdminPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-6">
                   <button
                     type="button"
-                    onClick={() => set(selected.id, "approved")}
+                    onClick={() => set(selected.id, "Approved")}
                     className="py-2.5 bg-white text-primary text-xs font-bold rounded-lg"
                   >
                     Approve
                   </button>
                   <button
                     type="button"
-                    onClick={() => set(selected.id, "dismissed")}
+                    onClick={() => set(selected.id, "Rejected")}
                     className="py-2.5 border border-white/20 text-xs font-bold rounded-lg hover:bg-white/5"
                   >
-                    Dismiss
+                    Reject
                   </button>
                 </div>
                 <Link
@@ -369,11 +367,6 @@ function DetailRow({ label, children }: { label: string; children: React.ReactNo
     <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-white/10 pb-2">
       <span className="opacity-60 text-xs uppercase tracking-wider font-mono">{label}</span>
       <span className="font-bold sm:text-right break-words">{children}</span>
-    <div className="border-b border-white/10 pb-2">
-      <div className="opacity-60 text-[10px] uppercase tracking-wider font-mono mb-1">
-        {label}
-      </div>
-      <div className="font-bold break-words">{children}</div>
     </div>
   );
 }
@@ -405,7 +398,4 @@ function ActionBtn({
       {label}
     </button>
   );
-function splitLocation(location: string) {
-  const [city, province] = location.split(",").map((part) => part.trim());
-  return { city: city || location, province: province || "Province not listed" };
 }

@@ -221,3 +221,34 @@ Acceptance criteria:
 - Jason Cyrus Hypnotherapy remains in `ADMIN_LEADS`.
 - Admin Portal renders `ADMIN_LEADS`.
 - Public search excludes `ADMIN_LEADS`.
+
+## 2026-05-18 Build/Publish Fix Update
+
+What was broken:
+- `src/routes/admin.tsx` had stale variable names from an earlier admin mock (`pending`, `reviewed`, and `statuses`) that no longer matched the current `ADMIN_LEADS`/`AdminStatus` data model.
+- Admin action handlers still used lowercase status values (`"approved"` and `"dismissed"`) even though `AdminStatus` only allows title-case values such as `"Approved"` and `"Rejected"`.
+- The admin route referenced an undefined `IconBtn` component and used `Link` without importing it.
+- `DetailRow` and `ActionBtn` in `src/routes/admin.tsx` had malformed JSX/function closing braces, causing the TypeScript parser to fail before Lovable could create its deployment bundle.
+- `PUBLIC_PROVIDERS` included approved `ADMIN_LEADS`, which risked exposing admin-only lead data in public search if a lead status changed.
+
+Files changed:
+- `src/routes/admin.tsx`
+  - Uses `ADMIN_LEADS` and `adminStatuses` consistently.
+  - Uses valid `AdminStatus` values for mock approve/reject actions.
+  - Replaces the undefined `IconBtn` usage with the existing `MockAction` component.
+  - Imports `Link` and fixes malformed JSX/function closings.
+  - Keeps the Admin Portal pointed at `ADMIN_LEADS`.
+- `src/data/providers.ts`
+  - Keeps `PUBLIC_PROVIDERS` limited to `PROVIDERS` so public search excludes `ADMIN_LEADS`.
+  - Updates `getProvider(id)` to find records in both `PROVIDERS` and `ADMIN_LEADS`, preserving admin lead profile lookup for review flows.
+
+Build status:
+- Full `npm run build` could not be verified in this local workspace because dependencies are not installed and package installation is blocked by registry/proxy 403 errors.
+- A focused Bun transpile check passed for `src/data/providers.ts`, `src/routes/admin.tsx`, and `src/routes/providers.$id.tsx`.
+- A focused TypeScript parser check no longer reports the previous `src/routes/admin.tsx` malformed JSX errors; it is blocked locally only by missing dependency type packages such as `vite/client` because `node_modules` is unavailable.
+
+What should be tested next:
+- Run the normal Lovable/GitHub build in an environment with dependencies available.
+- Open `/admin` and confirm Jason Cyrus Hypnotherapy and the other manual leads render in the Admin Portal queue.
+- Open public search and confirm manual leads from `ADMIN_LEADS` do not appear.
+- From the Admin Portal, open a lead profile and confirm the provider detail route can load the lead for review context.

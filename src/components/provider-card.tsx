@@ -32,9 +32,9 @@ export function ProviderCard({ provider }: { provider: Provider }) {
       : provider.sourceStatus === "user-submitted"
         ? "User Submitted"
         : "AI Discovered";
-  const isClaimEligibleSource =
-    provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead";
-  const showClaimOnlyActions = provider.profileStatus !== "claimed" && isClaimEligibleSource;
+  const showClaimOnlyActions =
+    provider.profileStatus !== "claimed" &&
+    (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
   const hasPublicReviews = provider.reviews > 0 && provider.rating > 0;
   const cleanWebsite = provider.website && provider.website.toLowerCase() !== "n/a" ? provider.website : "";
   const cleanPhone = provider.phone && provider.phone.toLowerCase() !== "n/a" ? provider.phone : "";

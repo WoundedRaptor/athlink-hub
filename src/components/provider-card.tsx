@@ -33,7 +33,8 @@ export function ProviderCard({ provider }: { provider: Provider }) {
         ? "User Submitted"
         : "AI Discovered";
   const showClaimAction =
-    provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead";
+    provider.profileStatus !== "claimed" &&
+    (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
 
   return (
     <div

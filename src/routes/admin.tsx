@@ -35,14 +35,12 @@ const ADMIN_STATUS_ORDER: AdminStatus[] = [
 ];
 
 function AdminPage() {
-  const initialAdminStatuses = useMemo<Record<string, AdminStatus>>(
-    () => Object.fromEntries(ADMIN_LEADS.map((lead) => [lead.id, lead.adminStatus])),
-    [],
-  );
-  const [adminStatuses, setAdminStatuses] = useState<Record<string, AdminStatus>>(initialAdminStatuses);
+  const [statusOverrides, setStatusOverrides] = useState<Record<string, AdminStatus>>({});
   const [selected, setSelected] = useState<Provider | null>(ADMIN_LEADS[0] ?? null);
 
-  const selectedStatus = selected ? adminStatuses[selected.id] : "Needs Review";
+  const getLeadStatus = (lead: Provider): AdminStatus => statusOverrides[lead.id] ?? lead.adminStatus;
+
+  const selectedStatus = selected ? getLeadStatus(selected) : "Needs Review";
 
   const counts = useMemo(() => {
     const initial: Record<AdminStatus, number> = {
@@ -55,14 +53,14 @@ function AdminPage() {
     };
 
     return ADMIN_LEADS.reduce((totals, lead) => {
-      const status = adminStatuses[lead.id];
+      const status = getLeadStatus(lead);
       totals[status] += 1;
       return totals;
     }, initial);
-  }, [adminStatuses]);
+  }, [statusOverrides]);
 
   const setStatus = (id: string, status: AdminStatus) => {
-    setAdminStatuses((previous) => ({ ...previous, [id]: status }));
+    setStatusOverrides((previous) => ({ ...previous, [id]: status }));
   };
 
   const mockOnly = () => undefined;
@@ -123,7 +121,7 @@ function AdminPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {ADMIN_LEADS.map((lead) => {
-                  const status = adminStatuses[lead.id];
+                  const status = getLeadStatus(lead);
                   return (
                     <tr
                       key={lead.id}
@@ -195,7 +193,7 @@ function AdminPage() {
 
             <div className="lg:hidden divide-y divide-border">
               {ADMIN_LEADS.map((lead) => {
-                const status = adminStatuses[lead.id];
+                const status = getLeadStatus(lead);
                 return (
                   <LeadCard
                     key={lead.id}

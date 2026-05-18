@@ -32,14 +32,14 @@ export function ProviderCard({ provider }: { provider: Provider }) {
       : provider.sourceStatus === "user-submitted"
         ? "User Submitted"
         : "AI Discovered";
-  const showClaimAction =
+  const showClaimOnlyActions =
     provider.profileStatus !== "claimed" &&
     (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
 
   return (
     <div
       className={`group bg-card p-4 sm:p-6 rounded-3xl ring-1 ring-black/5 flex flex-col md:flex-row gap-4 sm:gap-6 hover:shadow-xl transition-shadow min-w-0 ${
-        showClaimAction ? "border-l-4 border-warn/40" : ""
+        showClaimOnlyActions ? "border-l-4 border-warn/40" : ""
       }`}
     >
       <Link
@@ -107,7 +107,7 @@ export function ProviderCard({ provider }: { provider: Provider }) {
             )}
           </div>
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            {showClaimAction ? (
+            {showClaimOnlyActions ? (
               <Link
                 to="/claim/$id"
                 params={{ id: provider.id }}

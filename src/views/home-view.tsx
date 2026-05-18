@@ -20,7 +20,7 @@ export function HomeView() {
   const [age, setAge] = useState<AgeGroup>("U12");
   const [location, setLocation] = useState("St. John’s, NL");
 
-  const featured = PUBLIC_PROVIDERS.slice(0, 2);
+  const featured = PUBLIC_PROVIDERS.slice(0, 3);
 
   const onSearch = () => {
     navigate({
@@ -37,15 +37,31 @@ export function HomeView() {
       <section className="px-4 sm:px-6 pt-12 sm:pt-20 pb-12 sm:pb-16 max-w-7xl mx-auto">
         <div className="max-w-3xl animate-reveal min-w-0">
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-4">
-            Local · Vetted · Parent-first
+            Atlantic Canada MVP · Parent-first
           </div>
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-balance mb-4">
-            Find the right local support for your young athlete.
+            Find trusted local support for youth athletes with AthLink Hub.
           </h1>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
-            Search coaches, trainers, gear shops, recovery providers, camps, and facilities across
-            Newfoundland &amp; Labrador and Nova Scotia.
+            Launching in Newfoundland &amp; Labrador and Nova Scotia. Parents can search by sport,
+            location, age group, and need to compare local coaching, training, recovery, camps,
+            facilities, and gear support.
           </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 mb-6">
+            <Link
+              to="/search"
+              className="px-5 py-3 bg-primary text-primary-foreground font-bold rounded-xl text-sm text-center"
+            >
+              Find Support
+            </Link>
+            <Link
+              to="/add-business"
+              className="px-5 py-3 border border-border font-bold rounded-xl text-sm text-center hover:bg-black/5"
+            >
+              Add or Claim a Business
+            </Link>
+          </div>
 
           <div className="bg-card ring-1 ring-black/5 shadow-2xl rounded-3xl p-2 flex flex-col md:flex-row gap-2 min-w-0">
             <div className="flex-1 p-4 md:border-r border-border">
@@ -110,7 +126,7 @@ export function HomeView() {
         {/* Need tiles */}
         <div className="mt-16">
           <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">
-            Start with a need
+            Support categories
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 animate-reveal [animation-delay:100ms]">
             {NEEDS.map((n) => (
@@ -130,6 +146,46 @@ export function HomeView() {
         </div>
       </section>
 
+      {/* How it works */}
+      <section className="px-4 sm:px-6 py-12 sm:py-16 border-t border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-2xl mb-8">
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">How AthLink Hub works</h2>
+            <p className="text-sm text-muted-foreground">
+              Built for busy sports families: discover local options quickly, compare trusted details,
+              then connect directly.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="bg-card ring-1 ring-black/5 rounded-2xl p-5">
+              <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">Step 1</div>
+              <h3 className="font-bold mb-1">Search by sport, location, or need</h3>
+              <p className="text-sm text-muted-foreground">Filter by age group and local area across Atlantic Canada launch regions.</p>
+            </div>
+            <div className="bg-card ring-1 ring-black/5 rounded-2xl p-5">
+              <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">Step 2</div>
+              <h3 className="font-bold mb-1">Compare providers and services</h3>
+              <p className="text-sm text-muted-foreground">Review sports served, services, ages, and listing status before choosing.</p>
+            </div>
+            <div className="bg-card ring-1 ring-black/5 rounded-2xl p-5">
+              <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">Step 3</div>
+              <h3 className="font-bold mb-1">Contact, book externally, or claim a listing</h3>
+              <p className="text-sm text-muted-foreground">Book Now links are external/contact-based in this MVP, and businesses can claim/update listings.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust language */}
+      <section className="px-4 sm:px-6 py-10 sm:py-12 bg-card/40 border-t border-border">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight mb-3">Listing trust and review status</h2>
+          <p className="text-sm text-muted-foreground max-w-3xl">
+            Listings on AthLink Hub may be claimed profiles, reviewed listings, or manual leads. Manual leads are reviewed by a human before they are published publicly. Not all providers are verified partners.
+          </p>
+        </div>
+      </section>
+
       {/* Featured */}
       <section className="px-4 sm:px-6 py-12 sm:py-16 bg-card/50 border-t border-border">
         <div className="max-w-7xl mx-auto">
@@ -139,7 +195,7 @@ export function HomeView() {
                 Featured in Newfoundland &amp; Labrador and Nova Scotia
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                Trusted by local sports families.
+                Featured public providers
               </h2>
             </div>
             <Link to="/search" className="text-xs font-mono font-bold underline hidden sm:inline">

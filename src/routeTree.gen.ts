@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SavedRouteImport } from './routes/saved'
+import { Route as AddBusinessRouteImport } from './routes/add-business'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
 
@@ -22,6 +23,11 @@ const SearchRoute = SearchRouteImport.update({
 const SavedRoute = SavedRouteImport.update({
   id: '/saved',
   path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AddBusinessRoute = AddBusinessRouteImport.update({
+  id: '/add-business',
+  path: '/add-business',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +43,14 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/add-business': typeof AddBusinessRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/add-business': typeof AddBusinessRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/providers/$id': typeof ProvidersIdRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/add-business': typeof AddBusinessRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
   '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/saved' | '/search' | '/providers/$id'
+  fullPaths: '/' | '/add-business' | '/saved' | '/search' | '/providers/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/saved' | '/search' | '/providers/$id'
-  id: '__root__' | '/' | '/saved' | '/search' | '/providers/$id'
+  to: '/' | '/add-business' | '/saved' | '/search' | '/providers/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/add-business'
+    | '/saved'
+    | '/search'
+    | '/providers/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AddBusinessRoute: typeof AddBusinessRoute
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
@@ -85,6 +101,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SavedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/add-business': {
+      id: '/add-business'
+      path: '/add-business'
+      fullPath: '/add-business'
+      preLoaderRoute: typeof AddBusinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AddBusinessRoute: AddBusinessRoute,
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
   ProvidersIdRoute: ProvidersIdRoute,

@@ -557,3 +557,32 @@ Final MVP checklist status:
 
 Known remaining issues:
 - Full dependency-based build command still depends on an environment where package dependencies are installed; local quick checks should be used when dependencies are unavailable.
+
+## 2026-05-18 Bulk Atlantic Provider Seed Support Update
+
+Files changed:
+- `src/data/provider-seeds-atlantic.ts`
+  - Added `ATLANTIC_BULK_PROVIDER_LEADS: Provider[]` as a dedicated scale-demo seed batch for Newfoundland & Labrador and Nova Scotia.
+  - All bulk seed records are static manual leads with:
+    - `profileStatus: "unclaimed"`
+    - `sourceStatus: "manual-lead"`
+    - `adminStatus: "Approved"`
+    - `tagline: "Manual lead · Approved for MVP display"`
+  - Missing details are intentionally normalized to MVP placeholders where needed:
+    - `phone: "n/a"`
+    - `email: "n/a"`
+    - `rating: 0`
+    - `reviews: 0`
+  - No bulk seed was marked claimed, verified, partnered, recommended, or official.
+- `src/data/providers.ts`
+  - Imported `ATLANTIC_BULK_PROVIDER_LEADS`.
+  - Split existing lead definitions into `CORE_ADMIN_LEADS` and exported `ADMIN_LEADS` as:
+    - `[...]CORE_ADMIN_LEADS, ...ATLANTIC_BULK_PROVIDER_LEADS]`
+  - Kept public publishing logic unchanged:
+    - `PUBLIC_PROVIDERS = PROVIDERS + ADMIN_LEADS.filter((provider) => provider.adminStatus === "Approved")`
+
+Scale-demo approach:
+- Keep curated/manual lead batches in separate data modules by region/theme to prevent `src/data/providers.ts` from becoming unmanageable.
+- Continue using `ADMIN_LEADS` as the Admin Portal source so all manual leads (core + bulk seed) remain review-visible.
+- Continue using `PUBLIC_PROVIDERS` filtering so only approved manual leads are publicly visible.
+- Keep this static and human-reviewed for MVP; no database/auth/payment/booking/scraping/API integration was introduced.

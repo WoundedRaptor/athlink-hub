@@ -34,17 +34,17 @@ export function HomeView() {
       <SiteHeader />
 
       {/* Hero */}
-      <section className="px-6 pt-20 pb-16 max-w-7xl mx-auto">
-        <div className="max-w-3xl animate-reveal">
+      <section className="px-4 sm:px-6 pt-12 sm:pt-20 pb-12 sm:pb-16 max-w-7xl mx-auto">
+        <div className="max-w-3xl animate-reveal min-w-0">
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-4">
             Local · Vetted · Parent-first
           </div>
-          <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-balance mb-4">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-balance mb-4">
             Find the right local support for your young athlete.
           </h1>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
-            Search coaches, trainers, gear shops, recovery providers, camps, and facilities
-            across Newfoundland &amp; Labrador and Nova Scotia.
+            Search coaches, trainers, gear shops, recovery providers, camps, and facilities across
+            Newfoundland &amp; Labrador and Nova Scotia.
           </p>
 
           <div className="bg-card ring-1 ring-black/5 shadow-2xl rounded-3xl p-2 flex flex-col md:flex-row gap-2">
@@ -100,7 +100,7 @@ export function HomeView() {
             <button
               type="button"
               onClick={onSearch}
-              className="bg-primary text-primary-foreground px-8 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-2"
+              className="w-full md:w-auto bg-primary text-primary-foreground px-8 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-2"
             >
               <Search className="size-4" /> Find Support
             </button>
@@ -112,7 +112,7 @@ export function HomeView() {
           <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">
             Start with a need
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 animate-reveal [animation-delay:100ms]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 animate-reveal [animation-delay:100ms]">
             {NEEDS.map((n) => (
               <Link
                 key={n}
@@ -131,21 +131,18 @@ export function HomeView() {
       </section>
 
       {/* Featured */}
-      <section className="px-6 py-16 bg-card/50 border-t border-border">
+      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-card/50 border-t border-border">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
             <div>
               <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
                 Featured in Newfoundland &amp; Labrador and Nova Scotia
               </div>
-              <h2 className="text-3xl font-extrabold tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
                 Trusted by local sports families.
               </h2>
             </div>
-            <Link
-              to="/search"
-              className="text-xs font-mono font-bold underline hidden sm:inline"
-            >
+            <Link to="/search" className="text-xs font-mono font-bold underline hidden sm:inline">
               See all providers →
             </Link>
           </div>
@@ -158,29 +155,29 @@ export function HomeView() {
       </section>
 
       {/* Business CTA */}
-      <section className="px-6 py-20">
-        <div className="max-w-7xl mx-auto bg-stone-900 text-white rounded-3xl p-12 relative overflow-hidden">
+      <section className="px-4 sm:px-6 py-14 sm:py-20">
+        <div className="max-w-7xl mx-auto bg-stone-900 text-white rounded-3xl p-6 sm:p-12 relative overflow-hidden">
           <div className="relative z-10 max-w-xl">
             <div className="font-mono text-[11px] uppercase tracking-[0.25em] opacity-60 mb-4">
               For local businesses
             </div>
-            <h3 className="text-3xl font-extrabold mb-3">
+            <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">
               Run a youth-sports business? Get in front of active families.
             </h3>
             <p className="text-sm opacity-70 mb-8">
-              Add or claim your listing to manage sports served, age groups, services, and
-              booking links — and reach parents searching nearby.
+              Add or claim your listing to manage sports served, age groups, services, and booking
+              links — and reach parents searching nearby.
             </p>
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
               <Link
                 to="/add-business"
-                className="px-5 py-3 bg-white text-black font-bold rounded-xl text-sm hover:bg-white/90"
+                className="px-5 py-3 bg-white text-black font-bold rounded-xl text-sm hover:bg-white/90 text-center"
               >
                 Add Listing
               </Link>
               <Link
                 to="/search"
-                className="px-5 py-3 border border-white/20 font-bold rounded-xl text-sm hover:bg-white/5"
+                className="px-5 py-3 border border-white/20 font-bold rounded-xl text-sm hover:bg-white/5 text-center"
               >
                 See how it looks
               </Link>

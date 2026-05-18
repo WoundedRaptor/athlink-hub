@@ -20,7 +20,7 @@ function AddBusinessPage() {
     return (
       <div className="min-h-screen bg-background text-foreground">
         <SiteHeader />
-        <section className="max-w-2xl mx-auto px-6 pt-24 pb-20 text-center">
+        <section className="max-w-2xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16 sm:pb-20 text-center">
           <div className="size-16 bg-success/15 text-success-foreground rounded-2xl grid place-items-center mx-auto mb-6">
             <Check className="size-8" />
           </div>
@@ -51,7 +51,7 @@ function AddBusinessPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
-      <section className="max-w-3xl mx-auto px-6 pt-16 pb-20">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-16 sm:pb-20">
         <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-3">
           For local businesses
         </div>
@@ -68,7 +68,7 @@ function AddBusinessPage() {
             e.preventDefault();
             setSubmitted(true);
           }}
-          className="bg-card ring-1 ring-black/5 rounded-3xl p-8 space-y-6 shadow-xl"
+          className="bg-card ring-1 ring-black/5 rounded-3xl p-4 sm:p-8 space-y-6 shadow-xl"
         >
           <Field label="Business name" required>
             <input
@@ -92,7 +92,7 @@ function AddBusinessPage() {
               <input
                 type="tel"
                 required
-                placeholder="(512) 555-0100"
+                placeholder="(709) 555-0100"
                 className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </Field>
@@ -139,7 +139,7 @@ function AddBusinessPage() {
           </Field>
 
           <Field label="Needs you serve">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {NEEDS.map((n) => (
                 <button
                   key={n}
@@ -165,13 +165,13 @@ function AddBusinessPage() {
             />
           </Field>
 
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
             <p className="text-xs text-muted-foreground max-w-xs">
               By submitting you agree to AthLink Hub's listing terms.
             </p>
             <button
               type="submit"
-              className="px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl"
+              className="w-full sm:w-auto px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl"
             >
               Submit for review
             </button>

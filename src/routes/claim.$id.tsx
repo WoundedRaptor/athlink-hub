@@ -67,9 +67,7 @@ function ClaimPage() {
           {STEPS.map((_, i) => (
             <div
               key={i}
-              className={`h-1 flex-1 rounded-full ${
-                i <= step ? "bg-primary" : "bg-secondary"
-              }`}
+              className={`h-1 flex-1 rounded-full ${i <= step ? "bg-primary" : "bg-secondary"}`}
             />
           ))}
         </div>
@@ -98,7 +96,7 @@ function ClaimPage() {
                 <TextField label="Your name" placeholder="Jamie Rivera" />
                 <TextField label="Your role" placeholder="Owner / Director" />
                 <TextField label="Email" placeholder="you@business.com" type="email" />
-                <TextField label="Phone" placeholder="(512) 555-0100" type="tel" />
+                <TextField label="Phone" placeholder="(709) 555-0100" type="tel" />
               </div>
               <TextField
                 label="Anything we should know?"
@@ -157,7 +155,12 @@ function ClaimPage() {
 function Option({ label, defaultChecked }: { label: string; defaultChecked?: boolean }) {
   return (
     <label className="flex items-center gap-3 p-4 rounded-xl border border-border cursor-pointer hover:bg-secondary/50">
-      <input type="radio" name="verify" defaultChecked={defaultChecked} className="accent-primary" />
+      <input
+        type="radio"
+        name="verify"
+        defaultChecked={defaultChecked}
+        className="accent-primary"
+      />
       <span className="text-sm font-medium">{label}</span>
     </label>
   );

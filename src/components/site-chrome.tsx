@@ -6,11 +6,11 @@ export function SiteHeader() {
 
   return (
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 min-w-0">
         <div className="flex items-center gap-8">
           <Link
             to="/"
-            className="font-extrabold text-xl tracking-tight"
+            className="font-extrabold text-lg sm:text-xl tracking-tight shrink-0"
             aria-label="AthLink Hub home"
           >
             <span>AthLink</span>
@@ -52,7 +52,7 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <Link
             to="/admin"
             className="text-sm font-medium px-4 py-2 hover:bg-black/5 rounded-full transition-colors hidden sm:inline-block"
@@ -62,7 +62,7 @@ export function SiteHeader() {
 
           <Link
             to="/add-business"
-            className="bg-primary text-primary-foreground text-sm font-bold px-5 py-2 rounded-full hover:bg-primary/90 transition-colors"
+            className="bg-primary text-primary-foreground text-xs sm:text-sm font-bold px-3 sm:px-5 py-2 rounded-full hover:bg-primary/90 transition-colors whitespace-nowrap"
           >
             Add Business
           </Link>
@@ -74,7 +74,7 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="px-6 py-20 border-t border-border bg-background">
+    <footer className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border bg-background">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
         <div className="max-w-sm">
           <span className="font-extrabold text-xl tracking-tight mb-4 block">
@@ -83,12 +83,12 @@ export function SiteFooter() {
           </span>
 
           <p className="text-sm text-muted-foreground">
-            Helping parents in Atlantic Canada find local support for young athletes, from
-            coaching and training to gear, recovery, camps, and facilities.
+            Helping parents in Atlantic Canada find local support for young athletes, from coaching
+            and training to gear, recovery, camps, and facilities.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
           <div className="space-y-4">
             <h5 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
               For Parents

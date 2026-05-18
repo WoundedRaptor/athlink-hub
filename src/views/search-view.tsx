@@ -37,7 +37,7 @@ export function SearchView() {
       <SiteHeader />
 
       {/* Search composer */}
-      <section className="px-6 pt-12 pb-6 max-w-7xl mx-auto">
+      <section className="px-4 sm:px-6 pt-8 sm:pt-12 pb-6 max-w-7xl mx-auto">
         <div className="bg-card ring-1 ring-black/5 shadow-xl rounded-3xl p-2 flex flex-col md:flex-row gap-2 animate-reveal">
           <div className="flex-1 p-4 md:border-r border-border">
             <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
@@ -122,11 +122,11 @@ export function SearchView() {
       </section>
 
       {/* Results */}
-      <section className="px-6 py-8 max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-12">
-          <div className="flex-1 space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+      <section className="px-4 sm:px-6 py-8 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          <div className="flex-1 space-y-6 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground break-words">
                 Found in {search.location || "Atlantic Canada"} ({results.length})
               </h2>
               <span className="text-xs font-mono font-bold uppercase text-muted-foreground">
@@ -134,7 +134,7 @@ export function SearchView() {
               </span>
             </div>
             {results.length === 0 ? (
-              <div className="bg-card ring-1 ring-black/5 rounded-3xl p-12 text-center">
+              <div className="bg-card ring-1 ring-black/5 rounded-3xl p-6 sm:p-12 text-center">
                 <h3 className="text-xl font-bold mb-2">No matches yet.</h3>
                 <p className="text-sm text-muted-foreground mb-6">
                   Try clearing filters or widening your age group.

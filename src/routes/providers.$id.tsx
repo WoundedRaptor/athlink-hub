@@ -41,15 +41,15 @@ function ProviderPage() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <article className="max-w-6xl mx-auto px-6 pt-12 pb-20">
+      <article className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16 sm:pb-20">
         <div className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-4">
           <Link to="/search" className="hover:underline">
             ← Back to search
           </Link>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_400px] gap-10">
-          <div>
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_400px] gap-8 lg:gap-10">
+          <div className="min-w-0">
             <div className="flex items-center gap-2 mb-3 flex-wrap">
               {provider.profileStatus === "claimed" ? (
                 <span className="bg-success/15 text-success-foreground text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter inline-flex items-center gap-1">
@@ -64,8 +64,12 @@ function ProviderPage() {
                 {provider.profileStatus} · source: {provider.sourceStatus}
               </span>
             </div>
-            <h1 className="text-5xl font-extrabold tracking-tight mb-3">{provider.name}</h1>
-            <p className="text-lg text-muted-foreground mb-6">{provider.tagline}</p>
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3 break-words">
+              {provider.name}
+            </h1>
+            <p className="text-base sm:text-lg text-muted-foreground mb-6 break-words">
+              {provider.tagline}
+            </p>
 
             <div className="aspect-[16/9] rounded-3xl overflow-hidden mb-8 ring-1 ring-black/5">
               <ProviderImage provider={provider} className="w-full h-full" />
@@ -115,9 +119,9 @@ function ProviderPage() {
           </div>
 
           <aside className="space-y-6 lg:sticky lg:top-24 self-start">
-            <div className="bg-card ring-1 ring-black/5 rounded-3xl p-6 shadow-lg">
+            <div className="bg-card ring-1 ring-black/5 rounded-3xl p-4 sm:p-6 shadow-lg min-w-0">
               {provider.rating > 0 && (
-                <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border">
+                <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border flex-wrap">
                   <Star className="size-4 fill-current text-accent" />
                   <span className="font-bold">{provider.rating}</span>
                   <span className="text-sm text-muted-foreground">
@@ -173,8 +177,8 @@ function ProviderPage() {
             <div className="bg-stone-900 text-white rounded-3xl p-6">
               <h4 className="font-bold mb-1">Is this you?</h4>
               <p className="text-sm opacity-70 mb-4">
-                Claim your listing to update services, hours, and share external booking or
-                contact links.
+                Claim your listing to update services, hours, and share external booking or contact
+                links.
               </p>
               <Link
                 to="/claim/$id"
@@ -212,9 +216,9 @@ function Tag({ children }: { children: React.ReactNode }) {
 
 function InfoRow({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="flex items-start gap-2.5">
-      <span className="text-muted-foreground mt-0.5">{icon}</span>
-      <span>{children}</span>
+    <div className="flex items-start gap-2.5 min-w-0">
+      <span className="text-muted-foreground mt-0.5 flex-shrink-0">{icon}</span>
+      <span className="min-w-0 break-words">{children}</span>
     </div>
   );
 }

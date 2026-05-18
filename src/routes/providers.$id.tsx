@@ -1,7 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { ProviderImage } from "@/components/provider-card";
-import { getProvider, NEED_LABELS } from "@/data/providers";
+import { getProvider, NEED_LABELS, type Provider } from "@/data/providers";
 import { Phone, Mail, Globe, MapPin, Star, Calendar, Shield } from "lucide-react";
 
 export const Route = createFileRoute("/providers/$id")({

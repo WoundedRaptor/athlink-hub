@@ -14,6 +14,7 @@ import { Route as SavedRouteImport } from './routes/saved'
 import { Route as AddBusinessRouteImport } from './routes/add-business'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProvidersIdRouteImport } from './routes/providers.$id'
+import { Route as ClaimIdRouteImport } from './routes/claim.$id'
 
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
@@ -40,12 +41,18 @@ const ProvidersIdRoute = ProvidersIdRouteImport.update({
   path: '/providers/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClaimIdRoute = ClaimIdRouteImport.update({
+  id: '/claim/$id',
+  path: '/claim/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/add-business': typeof AddBusinessRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
+  '/claim/$id': typeof ClaimIdRoute
   '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/add-business': typeof AddBusinessRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
+  '/claim/$id': typeof ClaimIdRoute
   '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRoutesById {
@@ -61,19 +69,33 @@ export interface FileRoutesById {
   '/add-business': typeof AddBusinessRoute
   '/saved': typeof SavedRoute
   '/search': typeof SearchRoute
+  '/claim/$id': typeof ClaimIdRoute
   '/providers/$id': typeof ProvidersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/add-business' | '/saved' | '/search' | '/providers/$id'
+  fullPaths:
+    | '/'
+    | '/add-business'
+    | '/saved'
+    | '/search'
+    | '/claim/$id'
+    | '/providers/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/add-business' | '/saved' | '/search' | '/providers/$id'
+  to:
+    | '/'
+    | '/add-business'
+    | '/saved'
+    | '/search'
+    | '/claim/$id'
+    | '/providers/$id'
   id:
     | '__root__'
     | '/'
     | '/add-business'
     | '/saved'
     | '/search'
+    | '/claim/$id'
     | '/providers/$id'
   fileRoutesById: FileRoutesById
 }
@@ -82,6 +104,7 @@ export interface RootRouteChildren {
   AddBusinessRoute: typeof AddBusinessRoute
   SavedRoute: typeof SavedRoute
   SearchRoute: typeof SearchRoute
+  ClaimIdRoute: typeof ClaimIdRoute
   ProvidersIdRoute: typeof ProvidersIdRoute
 }
 
@@ -122,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProvidersIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/claim/$id': {
+      id: '/claim/$id'
+      path: '/claim/$id'
+      fullPath: '/claim/$id'
+      preLoaderRoute: typeof ClaimIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -130,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   AddBusinessRoute: AddBusinessRoute,
   SavedRoute: SavedRoute,
   SearchRoute: SearchRoute,
+  ClaimIdRoute: ClaimIdRoute,
   ProvidersIdRoute: ProvidersIdRoute,
 }
 export const routeTree = rootRouteImport

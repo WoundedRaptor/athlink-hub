@@ -471,3 +471,25 @@ What should be tested next:
 - Confirm existing filters (sport, age group, need) still narrow results correctly.
 - Confirm empty state CTA and copy are clear on desktop and ~375px mobile.
 - Confirm claim page no longer references postcard/postal verification and clearly states static MVP/manual review limitations.
+
+
+## 2026-05-18 Claim Copy + Public Card/Profile Cleanup Update
+
+Files changed:
+- `src/routes/claim.$id.tsx`
+  - Removed `Business website or public contact listing` verification option and removed public-contact-listing wording from review copy.
+  - Kept claim review language focused on manual review plus email/text follow-up.
+  - Kept the static MVP disclaimer: `For now, this is a static MVP. Submissions are not saved yet.`
+- `src/components/provider-card.tsx`
+  - Kept claim CTA gating aligned to explicit rule:
+    - `provider.profileStatus !== "claimed"`
+    - and source in `"ai-discovered" | "manual-lead"`.
+  - Added cleaner public context line for parents showing city, sports, and needs.
+- `src/routes/providers.$id.tsx`
+  - Kept claim CTA gating aligned to the same explicit shared rule as provider cards.
+
+What should be tested next:
+- Open `/claim/$id` and confirm no `Business website or public contact listing` text appears and no postcard/postal verification wording remains.
+- Confirm claim copy states manual review and possible follow-up by email or text.
+- In `/search`, confirm provider cards show cleaner parent-facing context (city/sports/needs) while preserving existing service chips.
+- Confirm claim actions only appear when `profileStatus !== "claimed"` and source is `ai-discovered` or `manual-lead` on both cards and provider profiles.

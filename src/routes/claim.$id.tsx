@@ -78,14 +78,11 @@ function ClaimPage() {
                 <Shield className="size-5 text-primary" /> Verify you own this business
               </h2>
               <p className="text-sm text-muted-foreground">
-                Claim requests are reviewed manually before changes are published. We may verify
-                requests using your business website, email domain, public contact information,
-                or follow-up outreach.
+                Claim requests are reviewed manually before changes are published. We may follow up by email or text to confirm details.
               </p>
               <div className="space-y-2">
                 <Option label={`Business email on file — ${provider.email}`} defaultChecked />
                 <Option label={`Business phone on file — ${provider.phone}`} />
-                <Option label="Business website or public contact listing" />
               </div>
             </>
           )}

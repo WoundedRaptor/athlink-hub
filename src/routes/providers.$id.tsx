@@ -35,9 +35,9 @@ export const Route = createFileRoute("/providers/$id")({
 
 function ProviderPage() {
   const { provider } = Route.useLoaderData() as { provider: Provider };
-  const isClaimEligibleSource =
-    provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead";
-  const showClaimOnlyActions = provider.profileStatus !== "claimed" && isClaimEligibleSource;
+  const showClaimOnlyActions =
+    provider.profileStatus !== "claimed" &&
+    (provider.sourceStatus === "ai-discovered" || provider.sourceStatus === "manual-lead");
   const sourceLabel =
     provider.sourceStatus === "manual-lead"
       ? "Manual Lead"

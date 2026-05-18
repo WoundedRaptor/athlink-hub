@@ -1,8 +1,22 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
-import { ADMIN_LEADS, type Provider } from "@/data/providers";
-import { Check, X, Eye, RefreshCw } from "lucide-react";
+import {
+  ADMIN_LEADS,
+  NEED_LABELS,
+  type AdminStatus,
+  type Provider,
+} from "@/data/providers";
+import {
+  Check,
+  Edit3,
+  Eye,
+  Flag,
+  RefreshCw,
+  ShieldCheck,
+  UserCheck,
+  X,
+} from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -11,18 +25,21 @@ export const Route = createFileRoute("/admin")({
   }),
 });
 
-type Status = "pending" | "approved" | "dismissed";
-
 function AdminPage() {
-  const [statuses, setStatuses] = useState<Record<string, Status>>(
-    Object.fromEntries(ADMIN_LEADS.map((l) => [l.id, "pending" as Status])),
+  const [adminStatuses, setAdminStatuses] = useState<Record<string, AdminStatus>>(
+    Object.fromEntries(ADMIN_LEADS.map((l) => [l.id, l.adminStatus ?? "Needs Review"])),
   );
   const [selected, setSelected] = useState<Provider | null>(ADMIN_LEADS[0] ?? null);
 
-  const set = (id: string, s: Status) => setStatuses((p) => ({ ...p, [id]: s }));
+  const set = (id: string, status: AdminStatus) =>
+    setAdminStatuses((previous) => ({ ...previous, [id]: status }));
 
-  const pending = ADMIN_LEADS.filter((l) => statuses[l.id] === "pending");
-  const reviewed = ADMIN_LEADS.filter((l) => statuses[l.id] !== "pending");
+  const needsReview = ADMIN_LEADS.filter((lead) => adminStatuses[lead.id] === "Needs Review");
+  const approved = ADMIN_LEADS.filter((lead) => adminStatuses[lead.id] === "Approved");
+  const rejected = ADMIN_LEADS.filter((lead) => adminStatuses[lead.id] === "Rejected");
+  const duplicateRisk = ADMIN_LEADS.filter(
+    (lead) => adminStatuses[lead.id] === "Duplicate Risk",
+  );
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -31,10 +48,10 @@ function AdminPage() {
         <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
             <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-3">
-              Admin · AI lead queue
+              Admin · Manual lead queue
             </div>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-              Review discovered providers.
+              Review businesses before publishing.
             </h1>
             <p className="text-muted-foreground mt-2 max-w-2xl">
               Our crawler surfaces local youth-sports businesses from public sources. Approve, edit,
@@ -174,8 +191,7 @@ function AdminPage() {
             </div>
           </div>
 
-          {/* Detail panel */}
-          <aside className="lg:sticky lg:top-24 self-start">
+          <aside className="xl:sticky xl:top-24 self-start">
             {selected && (
               <div className="bg-primary text-primary-foreground rounded-3xl p-4 sm:p-6 shadow-xl min-w-0">
                 <div className="font-mono text-[10px] uppercase tracking-widest opacity-60 mb-2">
@@ -248,18 +264,43 @@ function Stat({ label, value, tone }: { label: string; value: number; tone?: "wa
   );
 }
 
-function StatusBadge({ status }: { status: Status }) {
-  const map: Record<Status, string> = {
-    pending: "bg-warn/20 text-warn-foreground",
-    approved: "bg-success/15 text-success-foreground",
-    dismissed: "bg-muted text-muted-foreground",
+function StatusBadge({ status, inverse = false }: { status: AdminStatus; inverse?: boolean }) {
+  const map: Record<AdminStatus, string> = {
+    "Needs Review": inverse ? "bg-white/15 text-white" : "bg-warn/20 text-warn-foreground",
+    "Duplicate Risk": inverse ? "bg-white/15 text-white" : "bg-accent/20 text-accent-foreground",
+    "Missing Info": inverse ? "bg-white/15 text-white" : "bg-muted text-muted-foreground",
+    "Ready to Publish": inverse ? "bg-white/15 text-white" : "bg-primary/10 text-primary",
+    Approved: inverse ? "bg-white text-primary" : "bg-success/15 text-success-foreground",
+    Rejected: inverse ? "bg-white/15 text-white" : "bg-destructive/10 text-destructive",
   };
   return (
     <span
-      className={`${map[status]} text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter`}
+      className={`${map[status]} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-tighter`}
     >
       {status}
     </span>
+  );
+}
+
+function SourceBadge({ source }: { source: Provider["sourceStatus"] }) {
+  return (
+    <span className="bg-secondary text-muted-foreground text-[10px] font-bold px-2 py-1 rounded uppercase tracking-tighter">
+      {source}
+    </span>
+  );
+}
+
+function ProfileBadge({ provider }: { provider: Provider }) {
+  const verified = provider.sourceStatus === "verified";
+  return (
+    <div className="space-y-1">
+      <span className="bg-secondary text-muted-foreground text-[10px] font-bold px-2 py-1 rounded uppercase tracking-tighter inline-block">
+        {provider.profileStatus}
+      </span>
+      <div className="text-[10px] font-mono text-muted-foreground">
+        {verified ? "verified" : "not verified"}
+      </div>
+    </div>
   );
 }
 
@@ -278,18 +319,20 @@ function Confidence({ value }: { value: number }) {
   );
 }
 
-function IconBtn({
-  children,
-  onClick,
+function MockAction({
+  icon,
   label,
+  onClick,
   tone,
-  disabled,
+  disabled = false,
+  full = false,
 }: {
-  children: React.ReactNode;
-  onClick: () => void;
+  icon: React.ReactNode;
   label: string;
+  onClick?: () => void;
   tone?: "success" | "destructive";
   disabled?: boolean;
+  full?: boolean;
 }) {
   const toneClass =
     tone === "success"
@@ -302,11 +345,22 @@ function IconBtn({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      aria-label={label}
-      className={`size-8 grid place-items-center rounded-lg border border-border transition-colors disabled:opacity-30 ${toneClass}`}
+      title={disabled ? `${label} is a static mock action` : label}
+      className={`inline-flex items-center justify-center gap-1.5 rounded-lg border border-border transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${toneClass} ${
+        full ? "px-3 py-2 text-xs font-bold" : "size-8"
+      }`}
     >
-      {children}
+      {icon}
+      {full && <span>{label}</span>}
     </button>
+  );
+}
+
+function MiniPill({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="rounded-md bg-secondary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+      {children}
+    </span>
   );
 }
 
@@ -315,6 +369,11 @@ function DetailRow({ label, children }: { label: string; children: React.ReactNo
     <div className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b border-white/10 pb-2">
       <span className="opacity-60 text-xs uppercase tracking-wider font-mono">{label}</span>
       <span className="font-bold sm:text-right break-words">{children}</span>
+    <div className="border-b border-white/10 pb-2">
+      <div className="opacity-60 text-[10px] uppercase tracking-wider font-mono mb-1">
+        {label}
+      </div>
+      <div className="font-bold break-words">{children}</div>
     </div>
   );
 }
@@ -346,4 +405,7 @@ function ActionBtn({
       {label}
     </button>
   );
+function splitLocation(location: string) {
+  const [city, province] = location.split(",").map((part) => part.trim());
+  return { city: city || location, province: province || "Province not listed" };
 }

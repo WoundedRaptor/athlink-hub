@@ -5,7 +5,7 @@ import { ProviderCard } from "@/components/provider-card";
 import {
   AGE_GROUPS,
   NEED_LABELS,
-  PROVIDERS,
+  PUBLIC_PROVIDERS,
   SPORTS,
   type AgeGroup,
   type Need,
@@ -23,7 +23,7 @@ export function SearchView() {
     navigate({ search: (prev: typeof search) => ({ ...prev, ...patch }) });
 
   const results = useMemo(() => {
-    return PROVIDERS.filter((p) => {
+    return PUBLIC_PROVIDERS.filter((p) => {
       if (search.sport && !p.sports.includes(search.sport)) return false;
       if (search.age && search.age !== "All" && !p.ages.includes(search.age as AgeGroup))
         return false;

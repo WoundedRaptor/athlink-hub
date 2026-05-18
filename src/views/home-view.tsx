@@ -6,7 +6,7 @@ import { ProviderCard } from "@/components/provider-card";
 import {
   AGE_GROUPS,
   NEED_LABELS,
-  PROVIDERS,
+  PUBLIC_PROVIDERS,
   SPORTS,
   type AgeGroup,
   type Need,
@@ -20,7 +20,7 @@ export function HomeView() {
   const [age, setAge] = useState<AgeGroup>("U12");
   const [location, setLocation] = useState("St. John’s, NL");
 
-  const featured = PROVIDERS.slice(0, 2);
+  const featured = PUBLIC_PROVIDERS.slice(0, 2);
 
   const onSearch = () => {
     navigate({

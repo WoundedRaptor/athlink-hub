@@ -22,15 +22,35 @@ export function SearchView() {
   const update = (patch: Partial<typeof search>) =>
     navigate({ search: (prev: typeof search) => ({ ...prev, ...patch }) });
 
+  const locationQuery = (search.location ?? "").trim().toLowerCase();
+
   const results = useMemo(() => {
     return PUBLIC_PROVIDERS.filter((p) => {
       if (search.sport && !p.sports.includes(search.sport)) return false;
-      if (search.age && search.age !== "All" && !p.ages.includes(search.age as AgeGroup))
+      if (search.age && search.age !== "All" && !p.ages.includes(search.age as AgeGroup)) {
         return false;
+      }
       if (search.need && !p.needs.includes(search.need)) return false;
+
+      if (locationQuery) {
+        const searchable = [
+          p.name,
+          p.city,
+          p.neighborhood,
+          ...p.sports,
+          ...p.services,
+          ...p.needs.map((need) => NEED_LABELS[need].label),
+          ...p.needs.map((need) => NEED_LABELS[need].sub),
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        if (!searchable.includes(locationQuery)) return false;
+      }
+
       return true;
     }).sort((a, b) => a.distanceMi - b.distanceMi);
-  }, [search]);
+  }, [search.sport, search.age, search.need, locationQuery]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -79,11 +99,11 @@ export function SearchView() {
           </div>
           <div className="flex-[1.5] p-4">
             <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
-              Location
+              Search or location
             </label>
             <input
               type="text"
-              placeholder="City or town"
+              placeholder="Name, sport, city, neighbourhood, or service"
               className="w-full font-semibold bg-transparent focus:outline-none"
               value={search.location}
               onChange={(e) => update({ location: e.target.value })}
@@ -127,24 +147,34 @@ export function SearchView() {
           <div className="flex-1 space-y-6 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground break-words">
-                Found in {search.location || "Atlantic Canada"} ({results.length})
+                {results.length} result{results.length === 1 ? "" : "s"} in Atlantic Canada
               </h2>
               <span className="text-xs font-mono font-bold uppercase text-muted-foreground">
                 Sort: Distance
               </span>
             </div>
+            {(locationQuery || search.sport || (search.age && search.age !== "All") || search.need) && (
+              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <span className="font-bold uppercase tracking-wider">Active:</span>
+                {locationQuery && <span className="rounded-full bg-card px-3 py-1 ring-1 ring-border">Search: {search.location}</span>}
+                {search.sport && <span className="rounded-full bg-card px-3 py-1 ring-1 ring-border">Sport: {search.sport}</span>}
+                {search.age && search.age !== "All" && <span className="rounded-full bg-card px-3 py-1 ring-1 ring-border">Age: {search.age}</span>}
+                {search.need && <span className="rounded-full bg-card px-3 py-1 ring-1 ring-border">Need: {NEED_LABELS[search.need].label}</span>}
+              </div>
+            )}
+
             {results.length === 0 ? (
               <div className="bg-card ring-1 ring-black/5 rounded-3xl p-6 sm:p-12 text-center">
-                <h3 className="text-xl font-bold mb-2">No matches yet.</h3>
+                <h3 className="text-xl font-bold mb-2">No providers matched your search.</h3>
                 <p className="text-sm text-muted-foreground mb-6">
-                  Try clearing filters or widening your age group.
+                  Try clearing filters, broadening your search terms, or searching a nearby community.
                 </p>
                 <Link
                   to="/search"
                   search={{ sport: "", age: "All", location: search.location, need: undefined }}
                   className="inline-block px-5 py-2 bg-primary text-primary-foreground font-bold rounded-xl text-sm"
                 >
-                  Reset filters
+                  Clear filters
                 </Link>
               </div>
             ) : (
@@ -162,7 +192,7 @@ export function SearchView() {
                 to="/add-business"
                 className="inline-block w-full text-center py-3 bg-white text-primary font-bold rounded-xl text-sm"
               >
-                Add a business
+                Add or claim a business
               </Link>
             </div>
             <div className="bg-card ring-1 ring-black/5 rounded-3xl p-6">
